@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:ignore="ExtraText">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:elevation="10dp"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:backgroundTint="#EEEFF3"
+        android:elevation="5dp"
+        app:cardCornerRadius="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+
+
+        >
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hisse Portföy Değeri"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:padding="5dp"
+
+            />
+
+        <TextView
+            android:id="@+id/toplamDegerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+
+            android:text="0,0 TL"
+            android:textColor="@color/black"
+
+            />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toplam Kar / Zarar"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="60dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:padding="5dp"
+
+            />
+
+        <TextView
+            android:id="@+id/karZararText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="60dp"
+            android:padding="5dp"
+
+            android:text="0,0 TL"
+            android:textColor="@color/green"
+
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/button"
+        android:contentDescription="Hisse Ekle"
+        android:src="@drawable/baseline_add_30"
+
+
+
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view"/>
+
+
+
+
+</RelativeLayout>

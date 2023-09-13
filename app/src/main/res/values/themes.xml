@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ProfitPortfolio" parent="Theme.AppCompat.Light">
+
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/appBars</item>
+        <item name="titleTextColor">@color/white</item>
+
+    </style>
+
+    <style name="Base.Theme.AddStock" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/appBars</item>
+        <item name="titleTextColor">@color/white</item>
+
+    </style>
+</resources>
