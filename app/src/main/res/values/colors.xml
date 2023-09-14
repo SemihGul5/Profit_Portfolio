@@ -6,4 +6,5 @@
     <color name="appBars">#32344f</color>
     <color name="green">#00d689</color>
     <color name="grey">#dfe0e5</color>
+    <color name="red">#ff0000</color>
 </resources>

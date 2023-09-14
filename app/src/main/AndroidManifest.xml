@@ -12,16 +12,17 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
+            android:name=".StockDetails"
+            android:exported="false" />
+        <activity
             android:name=".AddStock"
             android:exported="false"
-            android:theme="@style/Base.Theme.AddStock"
             android:parentActivityName=".MainActivity"
-
-            />
+            android:theme="@style/Base.Theme.AddStock" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Base.Theme.ProfitPortfolio"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Base.Theme.ProfitPortfolio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

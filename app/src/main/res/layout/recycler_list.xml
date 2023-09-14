@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="2dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="10dp"
+    android:backgroundTint="@color/grey"
+    >
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+
+        <TextView
+            android:id="@+id/recyclerStockNameText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/button"
+            android:text="deneme"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textViewRecycler"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Toplam Tutar"
+            android:layout_toRightOf="@+id/recyclerStockNameText"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/recyclerAmountNameText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="150 TL"
+            android:layout_toRightOf="@+id/recyclerStockNameText"
+            android:layout_below="@+id/textViewRecycler"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textViewRecycler2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Kar / Zarar"
+            android:layout_toRightOf="@+id/textViewRecycler"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/recyclerKarZararNameText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="150 TL"
+            android:layout_toRightOf="@+id/recyclerAmountNameText"
+            android:layout_below="@+id/textViewRecycler2"
+            android:textAlignment="center"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textViewRecycler3"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="Alış Tarihi: "
+            android:layout_below="@+id/recyclerStockNameText"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/recyclerDateText"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="05/01/2020"
+            android:layout_below="@+id/recyclerAmountNameText"
+            android:layout_toRightOf="@+id/textViewRecycler3"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp" />
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
