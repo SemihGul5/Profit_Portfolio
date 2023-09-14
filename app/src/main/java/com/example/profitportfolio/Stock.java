@@ -9,9 +9,13 @@ public class Stock {
     private double stockPriceBuy;
     private double stockPriceSell;
     private double amount;
-    private double profitAndLoss;
+    private  double profitAndLoss;
+    private double komisyon;
+    private static String color;
 
-    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss) {
+
+
+    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -21,7 +25,9 @@ public class Stock {
         this.stockPriceSell = stockPriceSell;
         this.amount = amount;
         this.profitAndLoss = profitAndLoss;
+        this.komisyon=komisyon;
     }
+
 
     public int getId() {
         return id;
@@ -33,6 +39,20 @@ public class Stock {
 
     public String getName() {
         return name;
+    }
+
+    public String getColor(double prof) {
+        if(prof<0)
+        {
+            return color="red";
+        }
+        else{
+            return color="green";
+        }
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void setName(String name) {
@@ -93,5 +113,12 @@ public class Stock {
 
     public void setProfitAndLoss(double profitAndLoss) {
         this.profitAndLoss = profitAndLoss;
+    }
+    public double getKomisyon() {
+        return komisyon;
+    }
+
+    public void setKomisyon(double komisyon) {
+        this.komisyon = komisyon;
     }
 }

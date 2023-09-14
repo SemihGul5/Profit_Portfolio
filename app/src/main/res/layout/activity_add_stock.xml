@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="Hisse Senedi Adı"
-        android:layout_marginTop="50dp"
+        android:hint="*Hisse Senedi Adı"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         />
@@ -26,7 +26,7 @@
         android:ems="10"
         android:inputType="number"
         android:layout_below="@+id/stockNameText"
-        android:hint="Adet"
+        android:hint="*Adet"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:hint="Alış Fiyatı"
+            android:hint="*Alış Fiyatı"
             android:layout_marginRight="5dp"
             />
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:hint="Satış Fiyatı"
+            android:hint="*Satış Fiyatı"
             android:layout_marginLeft="5dp"
             />
 
@@ -70,7 +70,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout"
+        android:layout_below="@id/komisyonText"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
@@ -99,6 +99,18 @@
             />
 
     </LinearLayout>
+    <EditText
+        android:id="@+id/komisyonText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/linearLayout"
+        android:hint="*Komisyon Tutarı"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
 <LinearLayout
     android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
@@ -111,6 +123,8 @@
     android:gravity="center_vertical"
 
     >
+
+
 
     <TextView
         android:id="@+id/textView3"
@@ -132,7 +146,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:textStyle="bold"
-        android:text="150tl"
         android:textSize="18sp"
         android:layout_marginRight="5dp"
         />
@@ -172,7 +185,6 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="150tl"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginRight="5dp"

@@ -19,7 +19,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:backgroundTint="#EEEFF3"
+        android:backgroundTint="@color/white"
         android:elevation="5dp"
         app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="true"
@@ -102,7 +102,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view"/>

@@ -1,7 +1,6 @@
 package com.example.profitportfolio;
 
-import static com.example.profitportfolio.AddStock.greenColor;
-import static com.example.profitportfolio.AddStock.redColor;
+
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.profitportfolio.databinding.RecyclerListBinding;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder> {
     ArrayList<Stock> stockArrayList;
     Context context;
     SQLiteDatabase database;
+
 
     public StockAdapter(ArrayList<Stock> stockArrayList, Context context, SQLiteDatabase database) {
         this.stockArrayList = stockArrayList;
@@ -28,6 +29,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
     }
 
 
+    @NonNull
     @Override
     public StockHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerListBinding binding = RecyclerListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -37,26 +39,32 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
 
     @Override
     public void onBindViewHolder(@NonNull StockHolder holder, int position) {
+
+
+
         final Stock stock = stockArrayList.get(position);
-        holder.binding.recyclerAmountNameText.setText((int) stock.getAmount());
+        holder.binding.recyclerAmountNameText.setText(String.valueOf(stock.getAmount()));
+        holder.binding.recyclerDateText.setText(stock.getBuyDate());
+        holder.binding.recyclerStockNameText.setText(stock.getName());
         holder.binding.recyclerDateText.setText(stock.getBuyDate());
 
-        double profitLoss= stock.getProfitAndLoss();
-        if(profitLoss<0){
-            holder.binding.recyclerKarZararNameText.setText((int) stock.getProfitAndLoss());
-            holder.binding.recyclerKarZararNameText.setTextColor(redColor);
-        }
-        else if (profitLoss>0){
-            holder.binding.recyclerKarZararNameText.setText((int) stock.getProfitAndLoss());
-            holder.binding.recyclerKarZararNameText.setTextColor(greenColor);
-        }
-        else{
-            holder.binding.recyclerKarZararNameText.setText((int) stock.getProfitAndLoss());
-        }
+        // Veri geldiğinde renklendirme işlemi yap
+        if (stockArrayList.size() > 0) {
+            holder.binding.recyclerKarZararNameText.setText(String.valueOf(stock.getProfitAndLoss()));
 
+            String color = stock.getColor(stock.getProfitAndLoss());
 
-
+            if (Objects.equals(color, "red")) {
+                holder.binding.recyclerKarZararNameText.setTextColor(context.getColor(R.color.red));
+            } else if (Objects.equals(color, "green")) {
+                holder.binding.recyclerKarZararNameText.setTextColor(context.getColor(R.color.green));
+            }
+        } else {
+            // Veri yoksa metni temizle veya istediğiniz bir mesajı göster
+            holder.binding.recyclerKarZararNameText.setText("");
+        }
     }
+
 
     @Override
     public int getItemCount() {

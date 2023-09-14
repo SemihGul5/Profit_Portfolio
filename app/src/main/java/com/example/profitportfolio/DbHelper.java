@@ -16,13 +16,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql="create table "+TABLENAME+"(id integer primary key, name text, pieces text, buyDate text, sellDate text, stockPriceBuy REAL, stockPriceSell REAL, amount REAL, profitAndLoss REAL)";
+        String sql = "create table " + TABLENAME + "(id integer primary key, name text, pieces text, buyDate text, sellDate text, stockPriceBuy REAL, stockPriceSell REAL, amount REAL, profitAndLoss REAL, komisyon REAL)";
         db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql="drop table if exists "+TABLENAME+" ";
+        String sql = "drop table if exists " + TABLENAME + " ";
         db.execSQL(sql);
+        onCreate(db);
     }
+
 }

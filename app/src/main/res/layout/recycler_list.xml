@@ -7,14 +7,14 @@
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="10dp"
-    android:layout_margin="10dp"
-    android:backgroundTint="@color/grey"
+    android:layout_margin="5dp"
+    android:backgroundTint="@color/white"
     >
     
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+       >
 
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/button"
+            android:background="@drawable/oval_button"
             android:text="deneme"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -78,7 +78,8 @@
             android:text="Alış Tarihi: "
             android:layout_below="@+id/recyclerStockNameText"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold"
             android:textSize="14sp" />
         <TextView
@@ -89,7 +90,7 @@
             android:layout_below="@+id/recyclerAmountNameText"
             android:layout_toRightOf="@+id/textViewRecycler3"
             android:textColor="@color/black"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:textSize="14sp" />
 
 
