@@ -9,14 +9,14 @@ import androidx.annotation.Nullable;
 public class DbHelper extends SQLiteOpenHelper {
     public static final String DBNAME="stock.db";
     public static final String TABLENAME="stock";
-    public static final int VER=2;
+    public static final int VER=3;
     public DbHelper(@Nullable Context context) {
         super(context, TABLENAME, null, VER);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table " + TABLENAME + "(id integer primary key, name text, pieces text, buyDate text, sellDate text, stockPriceBuy REAL, stockPriceSell REAL, amount REAL, profitAndLoss REAL, komisyon REAL,total REAL)";
+        String sql = "create table " + TABLENAME + "(id integer primary key, name text, pieces text, buyDate text, sellDate text, stockPriceBuy REAL, stockPriceSell REAL, amount REAL, profitAndLoss REAL, komisyon REAL,total REAL, yuzde REAL)";
         db.execSQL(sql);
     }
 

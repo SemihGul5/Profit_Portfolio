@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         fab();
         getTotalPortfolio();
         getProfitLoss();
+        getYuzde();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -64,6 +65,42 @@ public class MainActivity extends AppCompatActivity {
         binding.toplamDegerText.setText(" " + String.valueOf(totalPortfolio) + " TL");
         adapter.notifyDataSetChanged();
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void getYuzde() {
+        double totalPortfolio = 0;
+        database = dbHelper.getReadableDatabase();
+
+        // SQL sorgusu ile toplam kar/zararı ve toplam tutarı al.
+        Cursor cursor = database.rawQuery("SELECT SUM(profitAndLoss), SUM(amount) FROM " + DbHelper.TABLENAME, null);
+
+        if (cursor.moveToFirst()) {
+            double totalProfitLoss = cursor.getDouble(0);
+            double totalAmount = cursor.getDouble(1);
+
+            if (totalAmount != 0) {
+                // Yüzdeyi hesapla ve ekrana yazdır.
+                double yuzde = (totalProfitLoss / totalAmount) * 100;
+                if(yuzde<0)
+                {
+                    binding.getiriText.setTextColor(getResources().getColor(R.color.red));
+                }
+                else if(yuzde>0){
+                    binding.getiriText.setTextColor(getResources().getColor(R.color.green));
+                }
+                else{
+                    binding.getiriText.setTextColor(getResources().getColor(R.color.black));
+                }
+                binding.getiriText.setText("% " + String.format("%.2f", yuzde));
+
+            } else {
+                binding.getiriText.setText("% 0.00");
+            }
+        }
+
+        cursor.close();
+        adapter.notifyDataSetChanged();
+    }
+
 
 
 
@@ -121,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         int profitLossIx=cursor.getColumnIndex("profitAndLoss");
         int komisyonIx=cursor.getColumnIndex("komisyon");
         int totalAmountIx=cursor.getColumnIndex("total");
+        int yuzdeIx=cursor.getColumnIndex("yuzde");
 
         while (cursor.moveToNext())
         {
@@ -135,9 +173,10 @@ public class MainActivity extends AppCompatActivity {
             double profitLoss=cursor.getDouble(profitLossIx);
             double komisyon=cursor.getDouble(komisyonIx);
             double total=cursor.getDouble(totalAmountIx);
+            double yuzde=cursor.getDouble(yuzdeIx);
 
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total);
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();

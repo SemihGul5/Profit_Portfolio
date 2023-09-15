@@ -27,13 +27,15 @@
 
 
         >
+
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hisse Portföy Değeri"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:padding="5dp"
@@ -45,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:padding="5dp"
 
             android:text="0,0 TL"
@@ -58,8 +60,9 @@
             android:layout_height="wrap_content"
             android:text="Toplam Kar / Zarar"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="38dp"
             android:textStyle="bold"
+
             android:textColor="@color/black"
             android:padding="5dp"
 
@@ -70,13 +73,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="38dp"
             android:padding="5dp"
 
             android:text="0,0 TL"
             android:textColor="@color/green"
 
             />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Getiri"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="68dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:padding="5dp"
+
+            />
+
+        <TextView
+            android:id="@+id/getiriText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="68dp"
+            android:padding="5dp"
+
+            android:text="% 0.0"
+            android:textColor="@color/green"
+
+            />
+
 
     </androidx.cardview.widget.CardView>
 

@@ -13,10 +13,11 @@ public class Stock {
     private double komisyon;
     private static String color;
     private double totalAmount;
+    private double yuzde;
 
 
 
-    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount) {
+    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -28,8 +29,16 @@ public class Stock {
         this.profitAndLoss = profitAndLoss;
         this.komisyon=komisyon;
         this.totalAmount=totalAmount;
+        this.yuzde=yuzde;
     }
 
+    public double getYuzde() {
+        return yuzde;
+    }
+
+    public void setYuzde(double yuzde) {
+        this.yuzde = yuzde;
+    }
 
     public int getId() {
         return id;

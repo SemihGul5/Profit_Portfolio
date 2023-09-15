@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.BidiFormatter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class AddStock extends AppCompatActivity {
     double komisyon;
     double totalAmount;
     public static String color="";
+    double yuzde;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +123,7 @@ public class AddStock extends AppCompatActivity {
         binding.saveButton.setText("KAYDET");
         binding.piecesText.setEnabled(true);
         binding.buyPriceText.setEnabled(true);
+        binding.sellPriceText.setEnabled(true);
         binding.komisyonText.setEnabled(true);
         binding.dateSellText.setEnabled(true);
         binding.dateBuyText.setEnabled(true);
@@ -168,6 +171,7 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("profitAndLoss", binding.profitLossText.getText().toString());
                             contentValues.put("komisyon", binding.komisyonText.getText().toString());
                             contentValues.put("total", binding.totalAmountText.getText().toString());
+                            contentValues.put("yuzde", binding.yuzdeText.getText().toString());
 
                             database = dbHelper.getWritableDatabase();
                             long result = database.insert(TABLENAME, null, contentValues);
@@ -223,6 +227,8 @@ public class AddStock extends AppCompatActivity {
                 amount = buyPrice * pieces;
                 profitLoss = (sellPrice * pieces) - amount - komisyon;
                  totalAmount = amount + profitLoss;
+                yuzde=(profitLoss/amount)*100;
+
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
@@ -232,6 +238,8 @@ public class AddStock extends AppCompatActivity {
                  amount = buyPrice * pieces;
                  profitLoss = (sellPrice * pieces) - amount - komisyon;
                  totalAmount = amount + profitLoss;
+                yuzde=(profitLoss/amount)*100;
+
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = 0;
@@ -239,8 +247,9 @@ public class AddStock extends AppCompatActivity {
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                  pieces = Integer.parseInt(binding.piecesText.getText().toString());
                  amount = buyPrice * pieces;
-                 profitLoss = amount-komisyon;
+                 profitLoss = -komisyon;
                  totalAmount = amount-komisyon;
+                yuzde=0;
             }
             else{
                 sellPrice = 0;
@@ -250,6 +259,7 @@ public class AddStock extends AppCompatActivity {
                  amount = buyPrice * pieces;
                  profitLoss = 0;
                  totalAmount = amount;
+                yuzde=0;
             }
 
 
@@ -267,14 +277,36 @@ public class AddStock extends AppCompatActivity {
 
             binding.amountText.setText(String.format("%.2f", amount));
             binding.profitLossText.setText(String.format("%.2f", profitLoss));
-            binding.profitLossText.setTextColor(getResources().getColor(
-                    resultProfitLoss.equals("+") ? R.color.green : (resultProfitLoss.equals("-") ? R.color.red : R.color.black)
-            ));
             binding.totalAmountText.setText(String.format("%.2f", totalAmount));
-            binding.totalAmountText.setTextColor(getResources().getColor(
-                    resultProfitLoss.equals("+") ? R.color.green : (resultProfitLoss.equals("-") ? R.color.red : R.color.black)
-            ));
+            binding.yuzdeText.setText(String.format("%.2f", yuzde));
 
+            if(resultProfitLoss.equals("+")){
+                binding.text12.setTextColor(getResources().getColor(R.color.green));
+                binding.text10.setTextColor(getResources().getColor(R.color.green));
+                binding.profitLossText.setTextColor(getResources().getColor(R.color.green));
+                binding.totalAmountText.setTextColor(getResources().getColor(R.color.green));
+            } else if (resultProfitLoss.equals("-")) {
+                binding.text12.setTextColor(getResources().getColor(R.color.red));
+                binding.text10.setTextColor(getResources().getColor(R.color.red));
+                binding.profitLossText.setTextColor(getResources().getColor(R.color.red));
+                binding.totalAmountText.setTextColor(getResources().getColor(R.color.red));
+            }
+            else{
+                binding.text12.setTextColor(getResources().getColor(R.color.black));
+                binding.text10.setTextColor(getResources().getColor(R.color.black));
+                binding.profitLossText.setTextColor(getResources().getColor(R.color.black));
+                binding.totalAmountText.setTextColor(getResources().getColor(R.color.black));
+            }
+            if (yuzde > 0) {
+                binding.yuzdeText.setTextColor(getResources().getColor(R.color.green));
+                binding.text9.setTextColor(getResources().getColor(R.color.green));
+            } else if (yuzde < 0) {
+                binding.yuzdeText.setTextColor(getResources().getColor(R.color.red));
+                binding.text9.setTextColor(getResources().getColor(R.color.red));
+            } else {
+                binding.yuzdeText.setTextColor(getResources().getColor(R.color.black));
+                binding.text9.setTextColor(getResources().getColor(R.color.black));
+            }
         }
         catch (Exception e) {
             Toast.makeText(AddStock.this,"hata",Toast.LENGTH_SHORT).show();
