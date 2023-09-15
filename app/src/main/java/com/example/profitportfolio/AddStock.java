@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,10 +15,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.profitportfolio.databinding.ActivityAddStockBinding;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Calendar;
 
 public class AddStock extends AppCompatActivity {
     private ActivityAddStockBinding binding;
@@ -30,6 +34,7 @@ public class AddStock extends AppCompatActivity {
     double amount;
     double profitLoss;
     double komisyon;
+    double totalAmount;
     public static String color="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,34 +42,121 @@ public class AddStock extends AppCompatActivity {
         binding = ActivityAddStockBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        double k=0;
+        binding.komisyonText.setText("Komisyon Tutarı: "+ k);
 
         setTitle("Hisse Ekle");
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
 
+        visibleAndEnabledGiris();
+
         dbHelper = new DbHelper(AddStock.this);
-        addTextWatchers();
+
         saveData();
+
+        dateBuyTextCalendar();
+        dateSellTextCalendar();
+
+
+
+    }
+
+    private void dateSellTextCalendar() {
+        binding.dateSellText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AddStock.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // on below line we are setting date to our edit text.
+                                binding.dateSellText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        },
+                        year, month, day);
+                datePickerDialog.show();
+            }
+        });
+    }
+
+    private void dateBuyTextCalendar() {
+        binding.dateBuyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AddStock.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                binding.dateBuyText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        },
+                        year, month, day);
+                datePickerDialog.show();
+            }
+        });
+    }
+
+    private void visibleAndEnabledGiris(){
+
+        binding.saveButton.setText("KAYDET");
+        binding.piecesText.setEnabled(true);
+        binding.buyPriceText.setEnabled(true);
+        binding.komisyonText.setEnabled(true);
+        binding.dateSellText.setEnabled(true);
+        binding.dateBuyText.setEnabled(true);
+        binding.stockNameText.setEnabled(true);
+        binding.stockNameText.setText("");
+        binding.buyPriceText.setText("");
+        binding.piecesText.setText("");
+        binding.sellPriceText.setText("");
+        binding.komisyonText.setText("");
+        binding.dateBuyText.setText("");
+        binding.dateSellText.setText("");
+        binding.totalAmountText.setText("");
+        binding.amountText.setText("");
+        binding.profitLossText.setText("");
     }
 
     private void saveData() {
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.stockNameText.getText().toString().isEmpty() ||
-                        binding.piecesText.getText().toString().isEmpty() ||
-                        binding.buyPriceText.getText().toString().isEmpty() ||
-                        binding.sellPriceText.getText().toString().isEmpty() ||
-                        binding.komisyonText.getText().toString().isEmpty()) {
-                    Snackbar.make(v, "Girilmesi zorunlu bilgiler eksiksiz girilmelidir.", Snackbar.LENGTH_SHORT).show();
-                }
-                else if(binding.stockNameText.getText().length()>10)
+
+                if(binding.saveButton.getText().equals("KAYDET"))
+                {
+                    if (binding.stockNameText.getText().toString().isEmpty() ||
+                            binding.piecesText.getText().toString().isEmpty() ||
+                            binding.buyPriceText.getText().toString().isEmpty()
+                    ) {
+                        Snackbar.make(v, "Gerekli alanları doldurunuz.", Snackbar.LENGTH_SHORT).show();
+                    }
+                    else if(binding.stockNameText.getText().length()>10)
                     {
                         Snackbar.make(v, "İsim alanı en fazla 10 karakter olmalıdır!", Snackbar.LENGTH_SHORT).show();
                     }
                     else{
                         try {
+                            calculateAmountAndProfitLoss();
                             ContentValues contentValues = new ContentValues();
                             contentValues.put("name", binding.stockNameText.getText().toString());
                             contentValues.put("pieces", binding.piecesText.getText().toString());
@@ -75,6 +167,7 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("amount", binding.amountText.getText().toString());
                             contentValues.put("profitAndLoss", binding.profitLossText.getText().toString());
                             contentValues.put("komisyon", binding.komisyonText.getText().toString());
+                            contentValues.put("total", binding.totalAmountText.getText().toString());
 
                             database = dbHelper.getWritableDatabase();
                             long result = database.insert(TABLENAME, null, contentValues);
@@ -82,9 +175,20 @@ public class AddStock extends AppCompatActivity {
                             if (result != -1) {
                                 Toast.makeText(AddStock.this, "Kayıt Başarılı", Toast.LENGTH_SHORT).show();
 
-                                Intent intent= new Intent(AddStock.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+
+                                binding.textView3.setVisibility(View.VISIBLE);
+                                binding.textView5.setVisibility(View.VISIBLE);
+                                binding.textView6.setVisibility(View.VISIBLE);
+                                binding.saveButton.setText("Yeni Hisse Girişi");
+                                binding.piecesText.setEnabled(false);
+                                binding.buyPriceText.setEnabled(false);
+                                binding.komisyonText.setEnabled(false);
+                                binding.sellPriceText.setEnabled(false);
+                                binding.stockNameText.setEnabled(false);
+                                binding.dateSellText.setEnabled(false);
+                                binding.dateBuyText.setEnabled(false);
+
+
                             } else {
                                 Toast.makeText(AddStock.this, "Kayıt Başarısız", Toast.LENGTH_SHORT).show();
                             }
@@ -94,76 +198,91 @@ public class AddStock extends AppCompatActivity {
                         }
                     }
                 }
+                else{
+                    visibleAndEnabledGiris();
+                }
+            }
         });
     }
-    private void addTextWatchers() {
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Değişmeden önceki durum
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Text değiştiğinde yapılacak işlemler
-                calculateAmountAndProfitLoss();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Text değiştikten sonra durum
-            }
-        };
-
-        binding.buyPriceText.addTextChangedListener(textWatcher);
-        binding.piecesText.addTextChangedListener(textWatcher);
-        binding.sellPriceText.addTextChangedListener(textWatcher);
-        binding.komisyonText.addTextChangedListener(textWatcher);
-    }
 
     @SuppressLint({"ResourceAsColor", "DefaultLocale"})
     private void calculateAmountAndProfitLoss() {
         try {
+            double sellPrice;
+            double komisyon ;
+            int pieces;
+            double amount;
+            double profitLoss;
+            double totalAmount;
+            if (!binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()) {
+                sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
+                komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
+                buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
+                pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                amount = buyPrice * pieces;
+                profitLoss = (sellPrice * pieces) - amount - komisyon;
+                 totalAmount = amount + profitLoss;
+            }
+            else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
+                sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
+                komisyon = 0;
+                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
+                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 amount = buyPrice * pieces;
+                 profitLoss = (sellPrice * pieces) - amount - komisyon;
+                 totalAmount = amount + profitLoss;
+            }
+            else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
+                sellPrice = 0;
+                komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
+                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
+                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 amount = buyPrice * pieces;
+                 profitLoss = amount-komisyon;
+                 totalAmount = amount-komisyon;
+            }
+            else{
+                sellPrice = 0;
+                komisyon = 0;
+                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
+                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 amount = buyPrice * pieces;
+                 profitLoss = 0;
+                 totalAmount = amount;
+            }
 
-
-            buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
-            pieces = Integer.parseInt(binding.piecesText.getText().toString());
-            sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
-            komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
-
-            amount = buyPrice * pieces;
-            profitLoss = (sellPrice * pieces) - amount - komisyon;
 
 
             String resultProfitLoss = "";
             if (profitLoss < 0) {
                 resultProfitLoss = "-";
-                color="red";
+                color = "red";
             } else if (profitLoss > 0) {
                 resultProfitLoss = "+";
-                color="green";
+                color = "green";
             } else {
                 resultProfitLoss = "";
             }
 
-            if (resultProfitLoss.equals("+")) {
-                binding.amountText.setText(String.format("%.2f", amount));
-                binding.profitLossText.setText(String.format("%.2f", profitLoss));
-                binding.profitLossText.setTextColor(getResources().getColor(R.color.green));
-            } else if (resultProfitLoss.equals("-")) {
-                binding.amountText.setText(String.format("%.2f", amount));
-                binding.profitLossText.setText(String.format("%.2f", profitLoss));
-                binding.profitLossText.setTextColor(getResources().getColor(R.color.red));
-            } else {
-                binding.amountText.setText(String.format("%.2f", amount));
-                binding.profitLossText.setText(String.format("%.2f", profitLoss));
-            }
+            binding.amountText.setText(String.format("%.2f", amount));
+            binding.profitLossText.setText(String.format("%.2f", profitLoss));
+            binding.profitLossText.setTextColor(getResources().getColor(
+                    resultProfitLoss.equals("+") ? R.color.green : (resultProfitLoss.equals("-") ? R.color.red : R.color.black)
+            ));
+            binding.totalAmountText.setText(String.format("%.2f", totalAmount));
+            binding.totalAmountText.setTextColor(getResources().getColor(
+                    resultProfitLoss.equals("+") ? R.color.green : (resultProfitLoss.equals("-") ? R.color.red : R.color.black)
+            ));
 
-        } catch (NumberFormatException e) {
-            binding.amountText.setText("");
-            binding.profitLossText.setText("");
+        }
+        catch (Exception e) {
+            Toast.makeText(AddStock.this,"hata",Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
 
 }

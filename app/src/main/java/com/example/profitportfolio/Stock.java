@@ -12,10 +12,11 @@ public class Stock {
     private  double profitAndLoss;
     private double komisyon;
     private static String color;
+    private double totalAmount;
 
 
 
-    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon) {
+    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -26,11 +27,20 @@ public class Stock {
         this.amount = amount;
         this.profitAndLoss = profitAndLoss;
         this.komisyon=komisyon;
+        this.totalAmount=totalAmount;
     }
 
 
     public int getId() {
         return id;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public void setId(int id) {

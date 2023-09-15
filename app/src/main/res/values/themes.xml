@@ -13,4 +13,9 @@
         <item name="titleTextColor">@color/white</item>
 
     </style>
+    <style name="Base.Theme.DetailsStock" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/appBars</item>
+        <item name="titleTextColor">@color/white</item>
+
+    </style>
 </resources>

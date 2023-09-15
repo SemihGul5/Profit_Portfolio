@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
-        adapter=new StockAdapter(stockArrayList,this,database);
+        adapter=new StockAdapter(stockArrayList,MainActivity.this,database,R.layout.recycler_list);
         getData();
         binding.recyclerView.setAdapter(adapter);
         
@@ -48,23 +48,28 @@ public class MainActivity extends AppCompatActivity {
         getProfitLoss();
     }
 
-    private void getTotalPortfolio() {
+    @SuppressLint("NotifyDataSetChanged")
+    public void getTotalPortfolio() {
         double totalPortfolio = 0;
         database = dbHelper.getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT SUM(amount) FROM " + TABLENAME, null);
+
+        // Satış tarihi (sellDate) alanı boş olanları topla.
+        Cursor cursor = database.rawQuery("SELECT SUM(total) FROM " + TABLENAME + " WHERE stockPriceSell IS NULL OR stockPriceSell = ''", null);
 
         if (cursor.moveToFirst()) {
-            totalPortfolio= cursor.getDouble(0);
-            // totalPortfolio değişkeni şimdi toplam portföyü içeriyor
-            // İhtiyacınıza göre bu değeri kullanabilirsiniz.
+            totalPortfolio = cursor.getDouble(0);
         }
 
         cursor.close();
-        binding.toplamDegerText.setText(" "+String.valueOf(totalPortfolio)+" TL");
-
+        binding.toplamDegerText.setText(" " + String.valueOf(totalPortfolio) + " TL");
+        adapter.notifyDataSetChanged();
     }
 
-    private void getProfitLoss() {
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void getProfitLoss() {
         double totalProfitLoss = 0;
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery("SELECT SUM(profitAndLoss) FROM " + TABLENAME, null);
@@ -76,18 +81,18 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         String profitLossText = " " + String.valueOf(totalProfitLoss) + " TL";
 
-        if (totalProfitLoss > 0) {
+        if (totalProfitLoss > 0.0) {
             binding.karZararText.setTextColor(getResources().getColor(R.color.green));
-
-        } else if (totalProfitLoss < 0) {
+        } else if (totalProfitLoss < 0.0) {
             binding.karZararText.setTextColor(getResources().getColor(R.color.red));
         } else {
-
             binding.karZararText.setTextColor(getResources().getColor(android.R.color.black));
         }
 
         binding.karZararText.setText(profitLossText);
+        adapter.notifyDataSetChanged();
     }
+
 
     private void fab() {
         binding.fab.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         int amountIx=cursor.getColumnIndex("amount");
         int profitLossIx=cursor.getColumnIndex("profitAndLoss");
         int komisyonIx=cursor.getColumnIndex("komisyon");
+        int totalAmountIx=cursor.getColumnIndex("total");
 
         while (cursor.moveToNext())
         {
@@ -128,8 +134,10 @@ public class MainActivity extends AppCompatActivity {
             double amount=cursor.getDouble(amountIx);
             double profitLoss=cursor.getDouble(profitLossIx);
             double komisyon=cursor.getDouble(komisyonIx);
+            double total=cursor.getDouble(totalAmountIx);
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon);
+
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();
