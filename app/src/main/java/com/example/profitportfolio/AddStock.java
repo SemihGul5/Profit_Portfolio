@@ -138,6 +138,11 @@ public class AddStock extends AppCompatActivity {
         binding.totalAmountText.setText("");
         binding.amountText.setText("");
         binding.profitLossText.setText("");
+        binding.text9.setText("");
+        binding.text10.setText("");
+        binding.text11.setText("");
+        binding.text12.setText("");
+        binding.yuzdeText.setText("");
     }
 
     private void saveData() {
@@ -183,6 +188,7 @@ public class AddStock extends AppCompatActivity {
                                 binding.textView3.setVisibility(View.VISIBLE);
                                 binding.textView5.setVisibility(View.VISIBLE);
                                 binding.textView6.setVisibility(View.VISIBLE);
+
                                 binding.saveButton.setText("Yeni Hisse Girişi");
                                 binding.piecesText.setEnabled(false);
                                 binding.buyPriceText.setEnabled(false);
@@ -249,7 +255,7 @@ public class AddStock extends AppCompatActivity {
                  amount = buyPrice * pieces;
                  profitLoss = -komisyon;
                  totalAmount = amount-komisyon;
-                yuzde=0;
+                 yuzde=(profitLoss/amount)*100;
             }
             else{
                 sellPrice = 0;
@@ -261,8 +267,6 @@ public class AddStock extends AppCompatActivity {
                  totalAmount = amount;
                 yuzde=0;
             }
-
-
 
             String resultProfitLoss = "";
             if (profitLoss < 0) {
@@ -279,12 +283,18 @@ public class AddStock extends AppCompatActivity {
             binding.profitLossText.setText(String.format("%.2f", profitLoss));
             binding.totalAmountText.setText(String.format("%.2f", totalAmount));
             binding.yuzdeText.setText(String.format("%.2f", yuzde));
-
+            binding.text9.setText("%");
+            binding.text10.setText("TL");
+            binding.text11.setText("TL");
+            binding.text12.setText("TL");
             if(resultProfitLoss.equals("+")){
                 binding.text12.setTextColor(getResources().getColor(R.color.green));
                 binding.text10.setTextColor(getResources().getColor(R.color.green));
                 binding.profitLossText.setTextColor(getResources().getColor(R.color.green));
                 binding.totalAmountText.setTextColor(getResources().getColor(R.color.green));
+
+
+
             } else if (resultProfitLoss.equals("-")) {
                 binding.text12.setTextColor(getResources().getColor(R.color.red));
                 binding.text10.setTextColor(getResources().getColor(R.color.red));
@@ -312,9 +322,5 @@ public class AddStock extends AppCompatActivity {
             Toast.makeText(AddStock.this,"hata",Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
 
 }

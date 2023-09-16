@@ -54,17 +54,35 @@ public class MainActivity extends AppCompatActivity {
         double totalPortfolio = 0;
         database = dbHelper.getReadableDatabase();
 
-        // Satış tarihi (sellDate) alanı boş olanları topla.
-        Cursor cursor = database.rawQuery("SELECT SUM(total) FROM " + TABLENAME + " WHERE stockPriceSell IS NULL OR stockPriceSell = ''", null);
+        // Bütün hisselerin toplam adetini al
+        Cursor cursor = database.rawQuery("SELECT SUM(pieces) FROM " + DbHelper.TABLENAME, null);
+        int totalPieces = 0;
 
         if (cursor.moveToFirst()) {
-            totalPortfolio = cursor.getDouble(0);
+            totalPieces = cursor.getInt(0);
         }
 
         cursor.close();
-        binding.toplamDegerText.setText(" " + String.valueOf(totalPortfolio) + " TL");
+
+        // Alış fiyatlarının ortalamasını al
+        cursor = database.rawQuery("SELECT AVG(stockPriceBuy) FROM " + DbHelper.TABLENAME, null);
+        double avgBuyPrice = 0;
+
+        if (cursor.moveToFirst()) {
+            avgBuyPrice = cursor.getDouble(0);
+        }
+
+        cursor.close();
+
+        // Maliyeti hesapla
+        double totalCost = totalPieces * avgBuyPrice;
+        double sumPort=totalCost+getProfitLoss();
+
+        binding.toplamDegerText.setText(" " + String.valueOf(totalCost) + " TL");
+        binding.toplamText.setText(" "+String.valueOf(sumPort)+" TL");
         adapter.notifyDataSetChanged();
     }
+
     @SuppressLint("NotifyDataSetChanged")
     public void getYuzde() {
         double totalPortfolio = 0;
@@ -106,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @SuppressLint("NotifyDataSetChanged")
-    public void getProfitLoss() {
+    public double getProfitLoss() {
         double totalProfitLoss = 0;
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery("SELECT SUM(profitAndLoss) FROM " + TABLENAME, null);
@@ -128,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.karZararText.setText(profitLossText);
         adapter.notifyDataSetChanged();
+        return totalProfitLoss;
     }
 
 
