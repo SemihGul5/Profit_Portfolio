@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BuyActivity">
+
+
+    <TextView
+        android:id="@+id/BuyStockNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:focusable="true"
+        android:hint="*Hisse Senedi Adı"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText
+        android:id="@+id/BuyPiecesText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:layout_below="@+id/BuyStockNameText"
+        android:hint="*Adet"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText
+        android:id="@+id/BuyPriceText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:layout_below="@+id/BuyPiecesText"
+        android:hint="*Alış Fiyatı"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText
+        android:id="@+id/BuyDateBuyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:clickable="false"
+        android:layout_below="@+id/BuyPriceText"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="Alış Tarihi"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <LinearLayout
+        android:id="@+id/BuylinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BuyDateBuyText"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+
+        >
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:text="Maliyet"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="datetime"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/amountText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/tlText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="TL"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/BuylinearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/oval_button"
+        android:elevation="10dp"
+        android:text="Satın Al"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+</RelativeLayout>

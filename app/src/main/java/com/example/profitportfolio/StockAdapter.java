@@ -115,6 +115,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         try {
+                            //Sil menü
                             if(menuItem.getItemId()==R.id.flowDelete){
 
                                 DbHelper dbHelper=new DbHelper(context);
@@ -135,6 +136,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 }
                             }
 
+                            //Düzenle
                             else if (menuItem.getItemId()==R.id.flowEdit) {
 
                                 Bundle bundle=new Bundle();
@@ -155,6 +157,14 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);
                             }
+                            else if(menuItem.getItemId()==R.id.flowBuy){
+                                //alma ekranı
+                            }
+                            else if(menuItem.getItemId()==R.id.flowDSell){
+                                //Satış ekranı
+                            }
+
+
 
                         }
                         catch (Exception e)

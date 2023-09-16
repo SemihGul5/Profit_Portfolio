@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     public void getTotalPortfolio() {
         double totalPortfolio = 0;
         database = dbHelper.getReadableDatabase();
-
         // Bütün hisselerin toplam adetini al
         Cursor cursor = database.rawQuery("SELECT SUM(pieces) FROM " + DbHelper.TABLENAME, null);
         int totalPieces = 0;
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             totalPieces = cursor.getInt(0);
         }
-
         cursor.close();
 
         // Alış fiyatlarının ortalamasını al

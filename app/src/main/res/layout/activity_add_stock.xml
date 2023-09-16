@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:textAlignment="viewEnd"
-            android:text="Tutar"
+            android:text="Maliyet"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:inputType="datetime"
