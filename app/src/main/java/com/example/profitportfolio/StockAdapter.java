@@ -173,7 +173,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 bundle.putDouble("total",stock.getTotalAmount());
                                 bundle.putDouble("yuzde",stock.getYuzde());
 
-                                Intent intent=new Intent(context, StockDetails.class);
+                                Intent intent=new Intent(context, BuyActivity.class);
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);
 
@@ -196,7 +196,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 bundle.putDouble("total",stock.getTotalAmount());
                                 bundle.putDouble("yuzde",stock.getYuzde());
 
-                                Intent intent=new Intent(context, StockDetails.class);
+                                Intent intent=new Intent(context, SellActivity.class);
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);
 

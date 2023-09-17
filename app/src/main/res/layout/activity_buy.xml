@@ -54,7 +54,7 @@
         android:ems="10"
         android:inputType="numberDecimal"
         android:layout_below="@+id/BuyPriceText"
-        android:hint="Komisyon Tutarı"
+        android:hint="*Komisyon Tutarı"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -225,70 +225,5 @@
         android:text="Satın Al"
         android:textColor="@color/white"
         android:textSize="18sp" />
-    <EditText
-        android:id="@+id/dateBuyText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:clickable="false"
-        android:layout_below="@+id/saveButton"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="Alış Tarihi"
-        android:layout_marginRight="5dp"
-        />
-    <EditText
-        android:id="@+id/dateSellText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:layout_below="@+id/dateBuyText"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:ems="10"
-        android:hint="Satış Tarihi"
-        android:layout_marginRight="5dp"
-        />
-    <EditText
-        android:id="@+id/sellPriceText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@id/dateSellText"
-        android:inputType="numberDecimal"
-        android:hint="Satış Fiyatı"
-        android:layout_marginLeft="5dp"
-        />
-    <TextView
-        android:id="@+id/profitLossText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/sellPriceText"
-        android:textAlignment="viewEnd"
-        android:textSize="18sp"
-        android:layout_marginRight="5dp"
-        />
-    <TextView
-        android:id="@+id/totalAmountText"
-        android:layout_width="0dp"
-        android:layout_below="@id/profitLossText"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:layout_marginRight="5dp"
-        />
-    <TextView
-        android:id="@+id/yuzdeText"
-        android:layout_width="0dp"
-        android:layout_below="@id/totalAmountText"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:layout_marginRight="5dp"
-        />
+
 </RelativeLayout>
