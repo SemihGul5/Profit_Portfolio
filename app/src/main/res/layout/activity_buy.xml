@@ -48,16 +48,13 @@
         android:layout_marginRight="10dp"
         />
     <EditText
-        android:id="@+id/BuyDateBuyText"
+        android:id="@+id/komisyonText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:clickable="false"
+        android:inputType="numberDecimal"
         android:layout_below="@+id/BuyPriceText"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="Alış Tarihi"
+        android:hint="Komisyon Tutarı"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -66,7 +63,7 @@
         android:id="@+id/BuylinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/BuyDateBuyText"
+        android:layout_below="@id/komisyonText"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
@@ -113,12 +110,114 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/BuylinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BuylinearLayout"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+
+        >
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:text="Önceki Maliyet"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="datetime"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/oldAmountText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/tlText2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="TL"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/BuylinearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BuylinearLayout2"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+
+        >
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:text="Ortalama"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="datetime"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/hesaplananText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/tlText3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="TL"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            />
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/BuylinearLayout"
+        android:layout_below="@+id/BuylinearLayout3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:background="@drawable/oval_button"
@@ -126,4 +225,70 @@
         android:text="Satın Al"
         android:textColor="@color/white"
         android:textSize="18sp" />
+    <EditText
+        android:id="@+id/dateBuyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:clickable="false"
+        android:layout_below="@+id/saveButton"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="Alış Tarihi"
+        android:layout_marginRight="5dp"
+        />
+    <EditText
+        android:id="@+id/dateSellText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:layout_below="@+id/dateBuyText"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:ems="10"
+        android:hint="Satış Tarihi"
+        android:layout_marginRight="5dp"
+        />
+    <EditText
+        android:id="@+id/sellPriceText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/dateSellText"
+        android:inputType="numberDecimal"
+        android:hint="Satış Fiyatı"
+        android:layout_marginLeft="5dp"
+        />
+    <TextView
+        android:id="@+id/profitLossText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/sellPriceText"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp"
+        android:layout_marginRight="5dp"
+        />
+    <TextView
+        android:id="@+id/totalAmountText"
+        android:layout_width="0dp"
+        android:layout_below="@id/profitLossText"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="18sp"
+        android:textAlignment="viewEnd"
+        android:layout_marginRight="5dp"
+        />
+    <TextView
+        android:id="@+id/yuzdeText"
+        android:layout_width="0dp"
+        android:layout_below="@id/totalAmountText"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="18sp"
+        android:textAlignment="viewEnd"
+        android:layout_marginRight="5dp"
+        />
 </RelativeLayout>

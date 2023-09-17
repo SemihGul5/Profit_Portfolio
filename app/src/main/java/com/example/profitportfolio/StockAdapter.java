@@ -159,9 +159,47 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                             }
                             else if(menuItem.getItemId()==R.id.flowBuy){
                                 //alma ekranı
+                                Bundle bundle=new Bundle();
+                                bundle.putInt("id",stock.getId());
+                                bundle.putString("name",stock.getName());
+                                bundle.putInt("pieces",stock.getPieces());
+                                bundle.putString("buyDate",stock.getBuyDate());
+                                bundle.putString("sellDate",stock.getSellDate());
+                                bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());
+                                bundle.putDouble("stockPriceSell",stock.getStockPriceSell());
+                                bundle.putDouble("amount",stock.getAmount());
+                                bundle.putDouble("profitAndLoss",stock.getProfitAndLoss());
+                                bundle.putDouble("komisyon",stock.getKomisyon());
+                                bundle.putDouble("total",stock.getTotalAmount());
+                                bundle.putDouble("yuzde",stock.getYuzde());
+
+                                Intent intent=new Intent(context, StockDetails.class);
+                                intent.putExtra("userData",bundle);
+                                context.startActivity(intent);
+
+
+
                             }
                             else if(menuItem.getItemId()==R.id.flowDSell){
                                 //Satış ekranı
+                                Bundle bundle=new Bundle();
+                                bundle.putInt("id",stock.getId());
+                                bundle.putString("name",stock.getName());
+                                bundle.putInt("pieces",stock.getPieces());
+                                bundle.putString("buyDate",stock.getBuyDate());
+                                bundle.putString("sellDate",stock.getSellDate());
+                                bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());
+                                bundle.putDouble("stockPriceSell",stock.getStockPriceSell());
+                                bundle.putDouble("amount",stock.getAmount());
+                                bundle.putDouble("profitAndLoss",stock.getProfitAndLoss());
+                                bundle.putDouble("komisyon",stock.getKomisyon());
+                                bundle.putDouble("total",stock.getTotalAmount());
+                                bundle.putDouble("yuzde",stock.getYuzde());
+
+                                Intent intent=new Intent(context, StockDetails.class);
+                                intent.putExtra("userData",bundle);
+                                context.startActivity(intent);
+
                             }
 
 
@@ -185,11 +223,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
             }
         });
 
-
-
-
     }
-
 
     @Override
     public int getItemCount() {
