@@ -47,12 +47,24 @@
         android:layout_marginRight="10dp"
         />
     <EditText
+        android:id="@+id/komisyonText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/SellPriceText"
+        android:hint="Komisyon Tutarı"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText
         android:id="@+id/SellDateSellText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:clickable="false"
-        android:layout_below="@+id/SellPriceText"
+        android:layout_below="@+id/komisyonText"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
@@ -60,6 +72,18 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        />
+    <TextView
+        android:id="@+id/adetBilgiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textAlignment="viewEnd"
+        android:text="Satılabilir adet: "
+        android:textStyle="bold"
+        android:layout_below="@+id/SellDateSellText"
+        android:textSize="12sp"
+        android:layout_marginRight="5dp"
         />
     <LinearLayout
         android:id="@+id/SelllinearLayout"

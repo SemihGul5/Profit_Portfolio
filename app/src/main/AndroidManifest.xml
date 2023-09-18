@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
+            android:name=".DbHelperDate"
+            android:exported="false" />
+        <activity
             android:name=".DateActivity"
             android:exported="false" />
         <activity

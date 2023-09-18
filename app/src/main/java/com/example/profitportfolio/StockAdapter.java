@@ -58,12 +58,17 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
         holder.binding.recyclerDateText.setText(stock.getBuyDate());
         holder.binding.recyclerStockNameText.setText(stock.getName());
         holder.binding.recyclerDateSellText.setText(stock.getSellDate());
-        holder.binding.yuzde.setText("% "+String.valueOf(stock.getYuzde()));
+        double yuzde = stock.getYuzde();
+        String formattedYuzde = String.format("%.2f", yuzde);
+        holder.binding.yuzde.setText("%"+formattedYuzde);
+
 
         // Veri geldiğinde renklendirme işlemi yap
         if (stockArrayList.size() > 0) {
-            holder.binding.recyclerKarZararNameText.setText(String.valueOf(stock.getProfitAndLoss())+" TL");
-
+            //holder.binding.recyclerKarZararNameText.setText(String.valueOf(stock.getProfitAndLoss())+" TL");
+            double profitAndLoss = stock.getProfitAndLoss();
+            String prt = String.format("%.2f", profitAndLoss);
+            holder.binding.recyclerKarZararNameText.setText(prt+" TL");
             String color = stock.getColor(stock.getProfitAndLoss());
 
             if (Objects.equals(color, "red")) {
@@ -149,19 +154,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 else{
                                     Toast.makeText(context,"İşlem başarısız",Toast.LENGTH_SHORT).show();
                                 }
-                            }
-
-                            //Düzenle
-                            else if (menuItem.getItemId()==R.id.flowEdit) {
-
-
-                                Intent intent=new Intent(context, StockDetails.class);
-                                intent.putExtra("userData",bundle);
-                                context.startActivity(intent);
-                                notifyDataSetChanged();
-                                ((MainActivity) context).getTotalPortfolio();
-                                ((MainActivity) context).getProfitLoss();
-                                ((MainActivity) context).getYuzde();
                             }
                             else if(menuItem.getItemId()==R.id.flowBuy){
                                 //alma ekranı

@@ -39,6 +39,7 @@ public class AddStock extends AppCompatActivity {
     public static String color="";
     double yuzde;
     double ortMaliyet;
+    double kalanAdet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +169,7 @@ public class AddStock extends AppCompatActivity {
                             calculateAmountAndProfitLoss();
                             ContentValues contentValues = new ContentValues();
                             contentValues.put("name", binding.stockNameText.getText().toString());
-                            contentValues.put("pieces", binding.piecesText.getText().toString());
+                            contentValues.put("pieces",kalanAdet);
                             contentValues.put("buyDate", binding.dateBuyText.getText().toString());
                             contentValues.put("sellDate", binding.dateSellText.getText().toString());
                             contentValues.put("stockPriceBuy", binding.buyPriceText.getText().toString());
@@ -237,7 +238,8 @@ public class AddStock extends AppCompatActivity {
                 profitLoss = (sellPrice * pieces) - amount;
                  totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
-                pieces=0;
+                ortMaliyet=amount/pieces;
+                kalanAdet=0;
 
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
@@ -249,7 +251,8 @@ public class AddStock extends AppCompatActivity {
                  profitLoss = (sellPrice * pieces) - amount;
                  totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
-                pieces=0;
+                ortMaliyet=amount/pieces;
+                kalanAdet=0;
 
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
@@ -261,6 +264,8 @@ public class AddStock extends AppCompatActivity {
                  profitLoss = -komisyon;
                  totalAmount = amount-komisyon;
                  yuzde=(profitLoss/amount)*100;
+                 ortMaliyet=amount/pieces;
+                 kalanAdet=pieces;
             }
             else{
                 sellPrice = 0;
@@ -271,6 +276,8 @@ public class AddStock extends AppCompatActivity {
                  profitLoss = 0;
                  totalAmount = amount;
                 yuzde=0;
+                ortMaliyet=amount/pieces;
+                kalanAdet=pieces;
             }
 
             String resultProfitLoss = "";
@@ -284,13 +291,13 @@ public class AddStock extends AppCompatActivity {
                 resultProfitLoss = "";
             }
 
-            ortMaliyet=amount/pieces;
 
 
-            binding.amountText.setText(String.format("%.3f", amount));
+
+            binding.amountText.setText(String.format("%.2f", amount));
             binding.profitLossText.setText(String.format("%.3f", profitLoss));
-            binding.totalAmountText.setText(String.format("%.3f", totalAmount));
-            binding.yuzdeText.setText(String.format("%.3f", yuzde));
+            binding.totalAmountText.setText(String.format("%.2f", totalAmount));
+            binding.yuzdeText.setText(String.format("%.2f", yuzde));
             binding.text9.setText("%");
             binding.text10.setText("TL");
             binding.text11.setText("TL");

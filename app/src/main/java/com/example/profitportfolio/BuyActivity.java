@@ -27,7 +27,7 @@ public class BuyActivity extends AppCompatActivity {
     int id;
     SQLiteDatabase database;
     DbHelper dbHelper;
-    String dateSell,olddateBuy;
+    String dateSell,olddateBuy,buyNewDate;
     int pieces;
     double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
     double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss;
@@ -44,7 +44,7 @@ public class BuyActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
         dbHelper= new DbHelper(this);
         getSelectedData();
-
+        dateBuyTextCalendar();
         updateData();
 
     }
@@ -55,10 +55,11 @@ public class BuyActivity extends AppCompatActivity {
                 if (
                         binding.BuyPiecesText.getText().toString().isEmpty() ||
                         binding.BuyPriceText.getText().toString().isEmpty()||
-                                binding.komisyonText.getText().toString().isEmpty()
+                                binding.komisyonText.getText().toString().isEmpty() ||
+                                binding.BuyDateBuyText.getText().toString().isEmpty()
                 )
                 {
-                    Snackbar.make(v, "Gerekli alanları doldurunuz.", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, "Tüm alanları doldurunuz.", Snackbar.LENGTH_SHORT).show();
                 }
                 else{
                     try {
@@ -66,7 +67,7 @@ public class BuyActivity extends AppCompatActivity {
                         ContentValues contentValues = new ContentValues();
                         contentValues.put("name",binding.BuyStockNameText.getText().toString());
                         contentValues.put("pieces",topAdet);
-                        contentValues.put("buyDate",olddateBuy);
+                        contentValues.put("buyDate",buyNewDate);
                         contentValues.put("sellDate",dateSell);
                         contentValues.put("stockPriceBuy",calcOrt);
                         contentValues.put("stockPriceSell",oldsellPrice);
@@ -101,6 +102,7 @@ public class BuyActivity extends AppCompatActivity {
             komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
             buyPrice = Double.parseDouble(binding.BuyPriceText.getText().toString());
             pieces = Integer.parseInt(binding.BuyPiecesText.getText().toString());
+            buyNewDate = binding.BuyDateBuyText.getText().toString();
 
             topAdet=pieces+oldbuyPieces;
             amount=(buyPrice*pieces)+komisyon;
@@ -141,6 +143,31 @@ public class BuyActivity extends AppCompatActivity {
             Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();
         }
     }
+    private void dateBuyTextCalendar() {
+        binding.BuyDateBuyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
 
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        BuyActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // on below line we are setting date to our edit text.
+                                binding.BuyDateBuyText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        },
+                        year, month, day);
+                datePickerDialog.show();
+            }
+        });
+    }
 
 }

@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     binding.getiriText.setTextColor(getResources().getColor(R.color.black));
                 }
-                binding.getiriText.setText("% " + String.format("%.2f", yuzde));
+                binding.getiriText.setText("%" + String.format("%.2f", yuzde));
 
             } else {
                 binding.getiriText.setText("% 0.00");

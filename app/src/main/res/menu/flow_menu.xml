@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Al" android:id="@+id/flowBuy"></item>
     <item android:title="Sat" android:id="@+id/flowDSell"></item>
-    <item android:title="Düzenle" android:id="@+id/flowEdit"></item>
     <item android:title="Sil" android:id="@+id/flowDelete"></item>
 
 
