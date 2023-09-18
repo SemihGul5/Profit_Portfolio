@@ -14,10 +14,11 @@ public class Stock {
     private static String color;
     private double totalAmount;
     private double yuzde;
+    private double ortMaliyet;
 
 
 
-    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde) {
+    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -30,10 +31,19 @@ public class Stock {
         this.komisyon=komisyon;
         this.totalAmount=totalAmount;
         this.yuzde=yuzde;
+        this.ortMaliyet=ortMaliyet;
     }
 
     public double getYuzde() {
         return yuzde;
+    }
+
+    public double getOrtMaliyet() {
+        return ortMaliyet;
+    }
+
+    public void setOrtMaliyet(double ortMaliyet) {
+        this.ortMaliyet = ortMaliyet;
     }
 
     public void setYuzde(double yuzde) {

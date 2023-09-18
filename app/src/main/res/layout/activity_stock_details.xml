@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         >
 
@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:ems="10"
             android:focusable="true"
-            android:hint="*Hisse Senedi"
+            android:hint="Hisse Senedi"
             android:inputType="text"
             android:textColor="#000000"
             android:textSize="18sp"
@@ -60,7 +60,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:hint="*Adet"
+            android:hint="Kalan Adet"
 
             android:layout_marginLeft="5dp"
 
@@ -95,7 +95,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:hint="*Alış Fiyatı"
+            android:hint="Alış Fiyatı"
 
             android:layout_marginLeft="5dp"
 
@@ -256,7 +256,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout2"
         android:orientation="horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
@@ -304,12 +304,69 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout3"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+
+        >
+
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:text="Ort. Maliyet"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="datetime"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/ortMaliyetText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:id="@+id/text13"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="TL"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            />
+
+
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout3"
+        android:layout_below="@id/linearLayout10"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"

@@ -62,22 +62,32 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        // Alış fiyatlarının ortalamasını al
-        cursor = database.rawQuery("SELECT AVG(stockPriceBuy) FROM " + DbHelper.TABLENAME, null);
-        double avgBuyPrice = 0;
+        // tüm fiyatları topla
+        cursor = database.rawQuery("SELECT SUM(total) FROM " + DbHelper.TABLENAME, null);
+        double sumTotal = 0;
 
         if (cursor.moveToFirst()) {
-            avgBuyPrice = cursor.getDouble(0);
+            sumTotal = cursor.getDouble(0);
+        }
+
+        cursor.close();
+        //maliyet= amount+komisyon
+        cursor = database.rawQuery("SELECT SUM(amount) FROM " + DbHelper.TABLENAME, null);
+        double sumAmount = 0;
+
+        if (cursor.moveToFirst()) {
+            sumAmount = cursor.getDouble(0);
         }
 
         cursor.close();
 
-        // Maliyeti hesapla
-        double totalCost = totalPieces * avgBuyPrice;
-        double sumPort=totalCost+getProfitLoss();
 
-        binding.toplamDegerText.setText(" " + String.valueOf(totalCost) + " TL");
-        binding.toplamText.setText(" "+String.valueOf(sumPort)+" TL");
+        // ortalama hesapla
+        double avgCost = sumTotal/totalPieces;
+        double sumMaliyet=(sumAmount)/totalPieces;
+
+        binding.toplamDegerText.setText(" "+String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
+        binding.toplamText.setText(" "+String.valueOf(String.format("%.2f",avgCost)+" TL"));
         adapter.notifyDataSetChanged();
     }
 
@@ -94,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             double totalAmount = cursor.getDouble(1);
 
             if (totalAmount != 0) {
-                // Yüzdeyi hesapla ve ekrana yazdır.
+                // Yüzdeyi hesapla ve ekrana yazdır.//
                 double yuzde = (totalProfitLoss / totalAmount) * 100;
                 if(yuzde<0)
                 {
@@ -176,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         int komisyonIx=cursor.getColumnIndex("komisyon");
         int totalAmountIx=cursor.getColumnIndex("total");
         int yuzdeIx=cursor.getColumnIndex("yuzde");
+        int ortIx=cursor.getColumnIndex("ortMaliyet");
 
         while (cursor.moveToNext())
         {
@@ -191,9 +202,10 @@ public class MainActivity extends AppCompatActivity {
             double komisyon=cursor.getDouble(komisyonIx);
             double total=cursor.getDouble(totalAmountIx);
             double yuzde=cursor.getDouble(yuzdeIx);
+            double ort=cursor.getDouble(ortIx);
 
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde);
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();

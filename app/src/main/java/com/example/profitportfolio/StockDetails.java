@@ -37,6 +37,7 @@ public class StockDetails extends AppCompatActivity {
     double totalAmount;
     public static String color="";
     double yuzde;
+    double ortMaliyet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,6 +194,7 @@ public class StockDetails extends AppCompatActivity {
                             contentValues.put("komisyon", binding.komisyonText.getText().toString());
                             contentValues.put("total", binding.totalAmountText.getText().toString());
                             contentValues.put("yuzde", binding.yuzdeText.getText().toString());
+                            contentValues.put("ortMaliyet", ortMaliyet);
 
                             database = dbHelper.getWritableDatabase();
                             long l= database.update(TABLENAME,contentValues,"id="+id,null);
@@ -227,8 +229,8 @@ public class StockDetails extends AppCompatActivity {
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                amount = buyPrice * pieces;
-                profitLoss = (sellPrice * pieces) - amount - komisyon;
+                amount = (buyPrice * pieces)+komisyon;
+                profitLoss = (sellPrice * pieces) - amount;
                 totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
             }
@@ -237,8 +239,8 @@ public class StockDetails extends AppCompatActivity {
                 komisyon = 0;
                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                amount = buyPrice * pieces;
-                profitLoss = (sellPrice * pieces) - amount - komisyon;
+                amount =  (buyPrice * pieces)+komisyon;
+                profitLoss = (sellPrice * pieces) - amount;
                 totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
             }
@@ -247,8 +249,8 @@ public class StockDetails extends AppCompatActivity {
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                amount = buyPrice * pieces;
-                profitLoss = amount-komisyon;
+                amount =  (buyPrice * pieces)+komisyon;
+                profitLoss = -komisyon;
                 totalAmount = amount-komisyon;
                 yuzde=0;
             }
@@ -263,7 +265,7 @@ public class StockDetails extends AppCompatActivity {
                 yuzde=0;
             }
 
-
+            ortMaliyet=amount/pieces;
 
             String resultProfitLoss = "";
             if (profitLoss < 0) {
@@ -317,6 +319,7 @@ public class StockDetails extends AppCompatActivity {
 
 }
 
+    @SuppressLint("DefaultLocale")
     private void editData() {
         if(getIntent().getBundleExtra("userData")!=null){
             Bundle bundle= getIntent().getBundleExtra("userData");
@@ -332,6 +335,7 @@ public class StockDetails extends AppCompatActivity {
             binding.totalAmountText.setText(String.valueOf(bundle.getDouble("total")) );
             binding.profitLossText.setText(String.valueOf(bundle.getDouble("profitAndLoss")) );
             binding.yuzdeText.setText(String.valueOf(bundle.getDouble("yuzde")) );
+            binding.ortMaliyetText.setText(String.valueOf(bundle.getDouble(String.format("%.3f", ortMaliyet))) );
             id=bundle.getInt("id");
 
         }

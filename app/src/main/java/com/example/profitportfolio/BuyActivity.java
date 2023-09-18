@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -26,10 +27,10 @@ public class BuyActivity extends AppCompatActivity {
     int id;
     SQLiteDatabase database;
     DbHelper dbHelper;
-    String dateBuy,dateSell;
+    String dateSell,olddateBuy;
     int pieces;
-    double calc=0 ,x=0,piecesNew=0,p=0,sum=0,yuzde,buyPrice,totalAmount,profitLoss,amount,komisyon=0,sellPrice;
-    double oldsellPrice,profitAndLoss,oldyuzde,buyPieces,oldbuyPrice,oldKomisyon,hesaplaKomisyon,oldAmount;
+    double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
+    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +42,10 @@ public class BuyActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
-
-
-
-
-        getSelectedData();
         dbHelper= new DbHelper(this);
+        getSelectedData();
+
         updateData();
-
-
 
     }
     private void updateData() {
@@ -68,17 +64,18 @@ public class BuyActivity extends AppCompatActivity {
                     try {
                         calculateAmountAndProfitLoss();
                         ContentValues contentValues = new ContentValues();
-                        contentValues.put("name", binding.BuyStockNameText.getText().toString());
-                        contentValues.put("pieces", piecesNew);
-                        contentValues.put("buyDate", dateBuy);
-                        contentValues.put("sellDate", dateSell);
-                        contentValues.put("stockPriceBuy", calc);
-                        contentValues.put("stockPriceSell", sellPrice);
-                        contentValues.put("amount",totalAmount );
-                        contentValues.put("profitAndLoss", profitAndLoss);
-                        contentValues.put("komisyon", hesaplaKomisyon);
-                        contentValues.put("total", totalAmount);
-                        contentValues.put("yuzde",yuzde);
+                        contentValues.put("name",binding.BuyStockNameText.getText().toString());
+                        contentValues.put("pieces",topAdet);
+                        contentValues.put("buyDate",olddateBuy);
+                        contentValues.put("sellDate",dateSell);
+                        contentValues.put("stockPriceBuy",calcOrt);
+                        contentValues.put("stockPriceSell",oldsellPrice);
+                        contentValues.put("amount",calcAmount);
+                        contentValues.put("profitAndLoss",oldprofitAndLoss);
+                        contentValues.put("komisyon",calcKomisyon);
+                        contentValues.put("total",calcTotal);
+                        contentValues.put("yuzde",oldyuzde);
+                        contentValues.put("ortMaliyet",calcOrt);
 
                         database = dbHelper.getWritableDatabase();
                         long l= database.update(TABLENAME,contentValues,"id="+id,null);
@@ -101,64 +98,49 @@ public class BuyActivity extends AppCompatActivity {
     private void calculateAmountAndProfitLoss() {
         try {
 
-            String color="";
-            Cursor cursor3= database.rawQuery("select komisyon from "+TABLENAME+" where id="+id+" ",null);
-            if(cursor3.moveToFirst()){
-                oldKomisyon=cursor3.getDouble(0);
-            }
-            cursor3.close();
+            komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
+            buyPrice = Double.parseDouble(binding.BuyPriceText.getText().toString());
+            pieces = Integer.parseInt(binding.BuyPiecesText.getText().toString());
 
-                komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
-                buyPrice = Double.parseDouble(binding.BuyPriceText.getText().toString());
-                pieces = Integer.parseInt(binding.BuyPiecesText.getText().toString());
-                x=(buyPrice*pieces)-komisyon;
-                hesaplaKomisyon=oldKomisyon+komisyon;
-                database=dbHelper.getReadableDatabase();
-                Cursor cursor= database.rawQuery("select total from "+TABLENAME+" where id="+id+" ",null);
-                if(cursor.moveToFirst()){
-                    sum=cursor.getDouble(0);
-                }
-                cursor.close();
-                database=dbHelper.getReadableDatabase();
-                @SuppressLint("Recycle") Cursor cursor2= database.rawQuery("select pieces from "+TABLENAME+" where id="+id+" ",null);
-                if(cursor2.moveToFirst()){
-                    p=cursor2.getDouble(0);
-                }
-                cursor.close();
-                piecesNew=p+pieces;
-                calc=(sum+x)/piecesNew;
-                totalAmount=sum+x;
+            topAdet=pieces+oldbuyPieces;
+            amount=(buyPrice*pieces)+komisyon;
+            calcAmount=amount+oldAmount;
+            calcKomisyon=komisyon+oldKomisyon;
+            calcTotal=oldTotal+amount;
+            calcOrt=(oldAmount+(amount))/topAdet;
 
 
+            binding.amountText.setText(String.format("%.2f", calcAmount));
+            binding.hesaplananText.setText(String.format("%.2f", calcOrt));
 
-            binding.amountText.setText(String.format("%.2f", x));
-            binding.hesaplananText.setText(String.format("%.2f", calc));
-
-
+        } catch (Exception e) {
+            Toast.makeText(BuyActivity.this, "Hesaplama sırasında bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        catch (Exception e) {
-            Toast.makeText(BuyActivity.this,"hata",Toast.LENGTH_SHORT).show();
-        }
-
     }
+
+
     private void getSelectedData() {
-        if(getIntent().getBundleExtra("userData")!=null){
-            Bundle bundle= getIntent().getBundleExtra("userData");
-            assert bundle != null;
+        Bundle bundle = getIntent().getBundleExtra("userData");
+        if (bundle != null) {
+            Log.d("BuyActivity", "Bundle içeriği: " + bundle.toString());
+            id = bundle.getInt("id");
             binding.BuyStockNameText.setText(bundle.getString("name"));
-            buyPieces=(bundle.getInt("pieces")) ;
-            oldbuyPrice=(bundle.getDouble("stockPriceBuy")) ;
-            oldsellPrice=bundle.getDouble("stockPriceSell");
-            oldKomisyon=(bundle.getDouble("komisyon"));
-            dateBuy= (bundle.getString("buyDate"));
-            dateSell=(bundle.getString("sellDate"));
+            oldbuyPieces = bundle.getInt("pieces");
+            olddateBuy = bundle.getString("buyDate");
+            dateSell = bundle.getString("sellDate");
+            oldbuyPrice = bundle.getDouble("stockPriceBuy");
+            oldsellPrice = bundle.getDouble("stockPriceSell");
+            oldAmount = bundle.getDouble("amount");
+            oldprofitAndLoss = bundle.getDouble("profitAndLoss");
+            oldKomisyon = bundle.getDouble("komisyon");
+            oldTotal = bundle.getDouble("total");
+            oldyuzde = bundle.getDouble("yuzde");
+            oldortMaliyet = bundle.getDouble("ortMaliyet");
+        } else {
 
-            binding.oldAmountText.setText(String.valueOf(bundle.getDouble("total")) );
-            profitAndLoss=(bundle.getDouble("profitAndLoss")) ;
-            oldyuzde=bundle.getDouble("yuzde");
-            id=bundle.getInt("id");
-
+            Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

@@ -38,6 +38,7 @@ public class AddStock extends AppCompatActivity {
     double totalAmount;
     public static String color="";
     double yuzde;
+    double ortMaliyet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +178,7 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("komisyon", binding.komisyonText.getText().toString());
                             contentValues.put("total", binding.totalAmountText.getText().toString());
                             contentValues.put("yuzde", binding.yuzdeText.getText().toString());
+                            contentValues.put("ortMaliyet",ortMaliyet);
 
                             database = dbHelper.getWritableDatabase();
                             long result = database.insert(TABLENAME, null, contentValues);
@@ -221,19 +223,21 @@ public class AddStock extends AppCompatActivity {
         try {
             double sellPrice;
             double komisyon ;
-            int pieces;
+            double pieces;
             double amount;
             double profitLoss;
             double totalAmount;
+
             if (!binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()) {
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                amount = buyPrice * pieces;
-                profitLoss = (sellPrice * pieces) - amount - komisyon;
+                amount = (buyPrice * pieces)+komisyon;
+                profitLoss = (sellPrice * pieces) - amount;
                  totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
+                pieces=0;
 
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
@@ -241,10 +245,11 @@ public class AddStock extends AppCompatActivity {
                 komisyon = 0;
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                  pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                 amount = buyPrice * pieces;
-                 profitLoss = (sellPrice * pieces) - amount - komisyon;
+                 amount = (buyPrice * pieces)+komisyon;
+                 profitLoss = (sellPrice * pieces) - amount;
                  totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
+                pieces=0;
 
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
@@ -252,7 +257,7 @@ public class AddStock extends AppCompatActivity {
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
                  pieces = Integer.parseInt(binding.piecesText.getText().toString());
-                 amount = buyPrice * pieces;
+                 amount = (buyPrice * pieces)+komisyon;
                  profitLoss = -komisyon;
                  totalAmount = amount-komisyon;
                  yuzde=(profitLoss/amount)*100;
@@ -279,10 +284,13 @@ public class AddStock extends AppCompatActivity {
                 resultProfitLoss = "";
             }
 
-            binding.amountText.setText(String.format("%.2f", amount));
-            binding.profitLossText.setText(String.format("%.2f", profitLoss));
-            binding.totalAmountText.setText(String.format("%.2f", totalAmount));
-            binding.yuzdeText.setText(String.format("%.2f", yuzde));
+            ortMaliyet=amount/pieces;
+
+
+            binding.amountText.setText(String.format("%.3f", amount));
+            binding.profitLossText.setText(String.format("%.3f", profitLoss));
+            binding.totalAmountText.setText(String.format("%.3f", totalAmount));
+            binding.yuzdeText.setText(String.format("%.3f", yuzde));
             binding.text9.setText("%");
             binding.text10.setText("TL");
             binding.text11.setText("TL");
