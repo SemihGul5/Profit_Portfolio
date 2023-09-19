@@ -100,28 +100,36 @@ public class StockDetails extends AppCompatActivity {
     }
 
 
+
     @SuppressLint("DefaultLocale")
     private void editData() {
         if(getIntent().getBundleExtra("userData")!=null){
             Bundle bundle= getIntent().getBundleExtra("userData");
             assert bundle != null;
             binding.stockNameText.setText(bundle.getString("name"));
-            binding.piecesText.setText(String.valueOf(bundle.getInt("pieces")) );
+            binding.piecesText.setText(String.valueOf(bundle.getDouble("pieces")) );
             binding.buyPriceText.setText(String.valueOf(bundle.getDouble("stockPriceBuy")) );
-            double sellp = bundle.getDouble("stockPriceSell");
-            String sellsp = String.format("%.2f", sellp);
-            binding.sellPriceText.setText(sellsp);
+            String stockPriceSell = bundle.getString("stockPriceSell");
+            if (stockPriceSell != null) {
+                double sellp = Double.parseDouble(stockPriceSell);
+                String sellsp = String.format("%.2f", sellp);
+                binding.sellPriceText.setText(sellsp);
+            } else {
+                binding.sellPriceText.setText("Null");
+            }
             binding.komisyonText.setText(String.valueOf(bundle.getDouble("komisyon")) );
             binding.dateBuyText.setText(bundle.getString("buyDate"));
             binding.dateSellText.setText(bundle.getString("sellDate"));
             binding.amountText.setText(String.valueOf(bundle.getDouble("amount")) );
             binding.totalAmountText.setText(String.valueOf(bundle.getDouble("total")) );
-            binding.profitLossText.setText(String.valueOf(bundle.getDouble("profitAndLoss")) );
+            String pronls = String.format("%.2f", bundle.getDouble("profitAndLoss" ));
+            binding.profitLossText.setText(pronls);
             double yuzde = bundle.getDouble("yuzde");
             String formattedYuzde = String.format("%.2f", yuzde);
             binding.yuzdeText.setText(formattedYuzde);
-           sellPieces=bundle.getDouble("sellPieces" );
-            binding.ortMaliyetText.setText(String.valueOf(bundle.getDouble("ortMaliyet" )));
+            sellPieces=bundle.getDouble("sellPieces" );
+            String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ));
+            binding.ortMaliyetText.setText(ortMaliyet);
             id=bundle.getInt("id");
 
         }

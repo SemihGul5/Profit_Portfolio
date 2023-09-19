@@ -56,21 +56,21 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
 
 
         final Stock stock = stockArrayList.get(position);
-        holder.binding.recyclerAmountNameText.setText(String.valueOf(stock.getTotalAmount())+" TL");
+        String amount=String.format("%.2f",stock.getTotalAmount())+" TL";
+        holder.binding.recyclerAmountNameText.setText(amount);
         holder.binding.recyclerDateText.setText(stock.getBuyDate());
         holder.binding.recyclerStockNameText.setText(stock.getName());
         holder.binding.recyclerDateSellText.setText(stock.getSellDate());
-        double yuzde = stock.getYuzde();
-        String formattedYuzde = String.format("%.2f", yuzde);
-        holder.binding.yuzde.setText("%"+formattedYuzde);
+        String formattedYuzde = "%"+String.format("%.2f",stock.getYuzde());
+        holder.binding.yuzde.setText(formattedYuzde);
 
-
+        double profitAndLoss = stock.getProfitAndLoss();
+        Log.d("Goster","kar zarar: "+stock.getProfitAndLoss());
+        String prt = String.format("%.2f", profitAndLoss);
+        holder.binding.recyclerKarZararNameText.setText(prt + " TL");
         // Veri geldiğinde renklendirme işlemi yap
         if (stockArrayList.size() > 0) {
             //holder.binding.recyclerKarZararNameText.setText(String.valueOf(stock.getProfitAndLoss())+" TL");
-            double profitAndLoss = stock.getProfitAndLoss();
-            String prt = String.format("%.2f", profitAndLoss);
-            holder.binding.recyclerKarZararNameText.setText(prt+" TL");
             String color = stock.getColor(stock.getProfitAndLoss());
 
             if (Objects.equals(color, "red")) {
@@ -92,7 +92,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", stock.getId());
                 bundle.putString("name",stock.getName());
-                bundle.putInt("pieces",stock.getPieces());
+                bundle.putDouble("pieces",stock.getPieces());
                 bundle.putString("buyDate",stock.getBuyDate());
                 bundle.putString("sellDate",stock.getSellDate());
                 bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());
@@ -126,7 +126,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                         Bundle bundle=new Bundle();
                         bundle.putInt("id",stock.getId());
                         bundle.putString("name",stock.getName());
-                        bundle.putInt("pieces",stock.getPieces());
+                        bundle.putDouble("pieces",stock.getPieces());
                         bundle.putString("buyDate",stock.getBuyDate());
                         bundle.putString("sellDate",stock.getSellDate());
                         bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());

@@ -21,6 +21,7 @@ import com.example.profitportfolio.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class BuyActivity extends AppCompatActivity {
     private ActivityBuyBinding binding;
@@ -28,7 +29,7 @@ public class BuyActivity extends AppCompatActivity {
     SQLiteDatabase database;
     DbHelper dbHelper;
     String dateSell,olddateBuy,buyNewDate;
-    int pieces;
+    double pieces;
     double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
     double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces;
     @Override
@@ -130,11 +131,15 @@ public class BuyActivity extends AppCompatActivity {
             Log.d("BuyActivity", "Bundle içeriği: " + bundle.toString());
             id = bundle.getInt("id");
             binding.BuyStockNameText.setText(bundle.getString("name"));
-            oldbuyPieces = bundle.getInt("pieces");
+            oldbuyPieces = bundle.getDouble("pieces");
             olddateBuy = bundle.getString("buyDate");
             dateSell = bundle.getString("sellDate");
             oldbuyPrice = bundle.getDouble("stockPriceBuy");
-            oldsellPrice = bundle.getDouble("stockPriceSell");
+            String stockPriceSell = bundle.getString("stockPriceSell");
+            if (stockPriceSell != null) {
+                oldsellPrice = Double.parseDouble(stockPriceSell);
+
+            }
             oldAmount = bundle.getDouble("amount");
             oldprofitAndLoss = bundle.getDouble("profitAndLoss");
             oldKomisyon = bundle.getDouble("komisyon");

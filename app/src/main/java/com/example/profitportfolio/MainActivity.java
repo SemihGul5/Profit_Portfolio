@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         double avgCost = sumTotal/(totalPieces+sellPieces);
         double sumMaliyet=(sumAmount)/(totalPieces+sellPieces);
 
-        binding.toplamDegerText.setText(" "+String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
-        binding.toplamText.setText(" "+String.valueOf(String.format("%.2f",avgCost)+" TL"));
+        binding.toplamDegerText.setText(String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
+        binding.toplamText.setText(String.valueOf(String.format("%.2f",avgCost)+" TL"));
         adapter.notifyDataSetChanged();
     }
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cursor.close();
-        String profitLossText = " " + String.valueOf(totalProfitLoss) + " TL";
+        String profitLossText = String.format("%.2f",totalProfitLoss) + " TL";
 
         if (totalProfitLoss > 0.0) {
             binding.karZararText.setTextColor(getResources().getColor(R.color.green));
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         {
             int id=cursor.getInt(idIx);
             String name=cursor.getString(nameIx);
-            int pieces=cursor.getInt(piecesIx);
+            double pieces=cursor.getDouble(piecesIx);
             String dateBuy=cursor.getString(dateBuyIx);
             String dateSell=cursor.getString(dateSellIx);
             double stockPricesBuy=cursor.getDouble(stockPricesBuyIx);

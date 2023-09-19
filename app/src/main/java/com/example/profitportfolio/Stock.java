@@ -3,7 +3,7 @@ package com.example.profitportfolio;
 public class Stock {
     private int id;
     private String name;
-    private int pieces;
+    private double pieces;
     private String buyDate;
     private String sellDate;
     private double stockPriceBuy;
@@ -19,7 +19,7 @@ public class Stock {
 
 
 
-    public Stock(int id, String name, int pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces) {
+    public Stock(int id, String name, double pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -98,7 +98,7 @@ public class Stock {
         this.name = name;
     }
 
-    public int getPieces() {
+    public double getPieces() {
         return pieces;
     }
 

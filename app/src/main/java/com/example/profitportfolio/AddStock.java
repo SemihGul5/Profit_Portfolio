@@ -30,7 +30,7 @@ public class AddStock extends AppCompatActivity {
     SQLiteDatabase database;
 
     double buyPrice;
-    int pieces;
+    double pieces;
     double sellPrice;
     double amount;
     double profitLoss;
@@ -40,7 +40,7 @@ public class AddStock extends AppCompatActivity {
     double yuzde;
     double ortMaliyet;
     double kalanAdet;
-    double sellPieces;
+    double sellPieces,karZarar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,10 +177,10 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("stockPriceBuy", binding.buyPriceText.getText().toString());
                             contentValues.put("stockPriceSell", binding.sellPriceText.getText().toString());
                             contentValues.put("amount", binding.amountText.getText().toString());
-                            contentValues.put("profitAndLoss", binding.profitLossText.getText().toString());
-                            contentValues.put("komisyon", binding.komisyonText.getText().toString());
+                            contentValues.put("profitAndLoss", karZarar);
+                            contentValues.put("komisyon", komisyon);
                             contentValues.put("total", binding.totalAmountText.getText().toString());
-                            contentValues.put("yuzde", binding.yuzdeText.getText().toString());
+                            contentValues.put("yuzde", yuzde);
                             contentValues.put("ortMaliyet",ortMaliyet);
                             contentValues.put("sellPieces",sellPieces);
 
@@ -191,9 +191,7 @@ public class AddStock extends AppCompatActivity {
                             if (result != -1) {
                                 Toast.makeText(AddStock.this, "Kayıt Başarılı", Toast.LENGTH_SHORT).show();
 
-                                ((MainActivity) getApplicationContext()).getTotalPortfolio();
-                                ((MainActivity) getApplicationContext()).getProfitLoss();
-                                ((MainActivity) getApplicationContext()).getYuzde();
+
                                 binding.textView3.setVisibility(View.VISIBLE);
                                 binding.textView5.setVisibility(View.VISIBLE);
                                 binding.textView6.setVisibility(View.VISIBLE);
@@ -207,13 +205,12 @@ public class AddStock extends AppCompatActivity {
                                 binding.dateSellText.setEnabled(false);
                                 binding.dateBuyText.setEnabled(false);
 
-
                             } else {
                                 Toast.makeText(AddStock.this, "Kayıt Başarısız", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                           // Toast.makeText(AddStock.this, "Bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddStock.this, "Bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -229,21 +226,14 @@ public class AddStock extends AppCompatActivity {
     @SuppressLint({"ResourceAsColor", "DefaultLocale"})
     private void calculateAmountAndProfitLoss() {
         try {
-            double sellPrice;
-            double komisyon ;
-            double pieces;
-            double amount;
-            double profitLoss;
-            double totalAmount;
-
             if (!binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()) {
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                 buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
-                pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                pieces = Double.parseDouble(binding.piecesText.getText().toString());
                 amount = (buyPrice * pieces)+komisyon;
                 profitLoss = (sellPrice * pieces) - amount;
-                 totalAmount = amount + profitLoss;
+                totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
                 ortMaliyet=amount/pieces;
                 kalanAdet=0;
@@ -288,6 +278,7 @@ public class AddStock extends AppCompatActivity {
                 kalanAdet=pieces;
                 sellPieces=0;
             }
+            karZarar=totalAmount-amount;
 
             String resultProfitLoss = "";
             if (profitLoss < 0) {
