@@ -30,7 +30,7 @@ public class BuyActivity extends AppCompatActivity {
     String dateSell,olddateBuy,buyNewDate;
     int pieces;
     double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
-    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss;
+    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +43,11 @@ public class BuyActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
         dbHelper= new DbHelper(this);
+
         getSelectedData();
         dateBuyTextCalendar();
         updateData();
+
 
     }
     private void updateData() {
@@ -77,6 +79,7 @@ public class BuyActivity extends AppCompatActivity {
                         contentValues.put("total",calcTotal);
                         contentValues.put("yuzde",oldyuzde);
                         contentValues.put("ortMaliyet",calcOrt);
+                        contentValues.put("sellPieces",oldSellPieces);
 
                         database = dbHelper.getWritableDatabase();
                         long l= database.update(TABLENAME,contentValues,"id="+id,null);
@@ -112,7 +115,7 @@ public class BuyActivity extends AppCompatActivity {
             calcOrt=(oldAmount+(amount))/topAdet;
 
 
-            binding.amountText.setText(String.format("%.2f", calcAmount));
+            binding.amountText.setText(String.format("%.2f", amount));
             binding.hesaplananText.setText(String.format("%.2f", calcOrt));
 
         } catch (Exception e) {
@@ -138,6 +141,7 @@ public class BuyActivity extends AppCompatActivity {
             oldTotal = bundle.getDouble("total");
             oldyuzde = bundle.getDouble("yuzde");
             oldortMaliyet = bundle.getDouble("ortMaliyet");
+            oldSellPieces = bundle.getDouble("sellPieces");
         } else {
 
             Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();

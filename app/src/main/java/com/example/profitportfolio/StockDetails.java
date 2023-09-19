@@ -28,7 +28,7 @@ public class StockDetails extends AppCompatActivity {
 
     int id;
     public static String color="";
-    double ortMaliyet;
+    double ortMaliyet,sellPieces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +108,9 @@ public class StockDetails extends AppCompatActivity {
             binding.stockNameText.setText(bundle.getString("name"));
             binding.piecesText.setText(String.valueOf(bundle.getInt("pieces")) );
             binding.buyPriceText.setText(String.valueOf(bundle.getDouble("stockPriceBuy")) );
-            binding.sellPriceText.setText(String.valueOf(bundle.getDouble("stockPriceSell")) );
+            double sellp = bundle.getDouble("stockPriceSell");
+            String sellsp = String.format("%.2f", sellp);
+            binding.sellPriceText.setText(sellsp);
             binding.komisyonText.setText(String.valueOf(bundle.getDouble("komisyon")) );
             binding.dateBuyText.setText(bundle.getString("buyDate"));
             binding.dateSellText.setText(bundle.getString("sellDate"));
@@ -118,7 +120,7 @@ public class StockDetails extends AppCompatActivity {
             double yuzde = bundle.getDouble("yuzde");
             String formattedYuzde = String.format("%.2f", yuzde);
             binding.yuzdeText.setText(formattedYuzde);
-
+           sellPieces=bundle.getDouble("sellPieces" );
             binding.ortMaliyetText.setText(String.valueOf(bundle.getDouble("ortMaliyet" )));
             id=bundle.getInt("id");
 

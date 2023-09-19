@@ -27,8 +27,8 @@ public class SellActivity extends AppCompatActivity {
     DbHelper dbHelper;
     String dateSell,olddateBuy,sellNewDate;
     int pieces;
-    double sellPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde;
-    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,calcSell;
+    double sellPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde,sellPieces;
+    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,calcSell,oldSellPieces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,10 @@ public class SellActivity extends AppCompatActivity {
         dbHelper= new DbHelper(this);
         getSelectedData();
         binding.adetBilgiText.setText("Satılabilir adet: "+String.valueOf(oldbuyPieces) );
+        if(oldbuyPieces==0){
+            Snackbar.make(view,"Bu hisseden satılabilir lot kalmamıştır!",Snackbar.LENGTH_INDEFINITE).show();
+            binding.saveButton.setVisibility(View.INVISIBLE);
+        }
         dateSellTextCalendar();
         updateData();
 
@@ -84,7 +88,7 @@ public class SellActivity extends AppCompatActivity {
                             contentValues.put("total",calcTotal);
                             contentValues.put("yuzde",calcYuzde);
                             contentValues.put("ortMaliyet",oldortMaliyet);
-
+                            contentValues.put("sellPieces",sellPieces);
                             database = dbHelper.getWritableDatabase();
                             long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
@@ -126,9 +130,10 @@ public class SellActivity extends AppCompatActivity {
                 calcProfitAndLoss=oldprofitAndLoss+(amount-x);
                 calcTotal=oldTotal+calcProfitAndLoss;
                 calcYuzde=(calcProfitAndLoss/oldAmount)*100;
+                sellPieces=pieces;
 
 
-                binding.amountText.setText(String.format("%.2f", calcAmount));
+                binding.amountText.setText(String.format("%.2f", amount));
 
 
 
@@ -180,7 +185,7 @@ public class SellActivity extends AppCompatActivity {
             oldTotal = bundle.getDouble("total");
             oldyuzde = bundle.getDouble("yuzde");
             oldortMaliyet = bundle.getDouble("ortMaliyet");
-
+            oldSellPieces = bundle.getDouble("sellPieces");
         } else {
 
             Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();

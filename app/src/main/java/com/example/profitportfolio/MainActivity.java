@@ -61,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
             totalPieces = cursor.getInt(0);
         }
         cursor.close();
+        cursor = database.rawQuery("SELECT SUM(sellPieces) FROM " + DbHelper.TABLENAME, null);
+        int sellPieces = 0;
+
+        if (cursor.moveToFirst()) {
+            sellPieces = cursor.getInt(0);
+        }
+        cursor.close();
 
         // tüm fiyatları topla
         cursor = database.rawQuery("SELECT SUM(total) FROM " + DbHelper.TABLENAME, null);
@@ -83,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         // ortalama hesapla
-        double avgCost = sumTotal/totalPieces;
-        double sumMaliyet=(sumAmount)/totalPieces;
+        double avgCost = sumTotal/(totalPieces+sellPieces);
+        double sumMaliyet=(sumAmount)/(totalPieces+sellPieces);
 
         binding.toplamDegerText.setText(" "+String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
         binding.toplamText.setText(" "+String.valueOf(String.format("%.2f",avgCost)+" TL"));
@@ -187,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         int totalAmountIx=cursor.getColumnIndex("total");
         int yuzdeIx=cursor.getColumnIndex("yuzde");
         int ortIx=cursor.getColumnIndex("ortMaliyet");
-
+        int sellPIx=cursor.getColumnIndex("sellPieces");
         while (cursor.moveToNext())
         {
             int id=cursor.getInt(idIx);
@@ -203,9 +210,10 @@ public class MainActivity extends AppCompatActivity {
             double total=cursor.getDouble(totalAmountIx);
             double yuzde=cursor.getDouble(yuzdeIx);
             double ort=cursor.getDouble(ortIx);
+            double sellPieces=cursor.getDouble(sellPIx);
 
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort);
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort,sellPieces);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();

@@ -113,7 +113,7 @@
         android:ems="10"
         android:inputType="numberDecimal"
         android:layout_below="@+id/linearLayout"
-        android:hint="Komisyon Tutarı"
+        android:hint="*Komisyon Tutarı"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

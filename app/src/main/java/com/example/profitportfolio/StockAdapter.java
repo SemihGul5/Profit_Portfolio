@@ -6,6 +6,7 @@ import static com.example.profitportfolio.DbHelper.TABLENAME;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.profitportfolio.databinding.RecyclerListBinding;
@@ -101,6 +103,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                 bundle.putDouble("total",stock.getTotalAmount());
                 bundle.putDouble("yuzde",stock.getYuzde());
                 bundle.putDouble("ortMaliyet",stock.getOrtMaliyet());
+                bundle.putDouble("sellPieces",stock.getSellPieces());
                 intent.putExtra("userData", bundle);
                 context.startActivity(intent);
             }
@@ -134,26 +137,40 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                         bundle.putDouble("total",stock.getTotalAmount());
                         bundle.putDouble("yuzde",stock.getYuzde());
                         bundle.putDouble("ortMaliyet",stock.getOrtMaliyet());
+                        bundle.putDouble("sellPieces",stock.getSellPieces());
                         try {
                             //Sil menü
                             if(menuItem.getItemId()==R.id.flowDelete){
+                                AlertDialog.Builder alert= new AlertDialog.Builder(context);
+                                alert.setTitle("Hisseyi sil");
+                                alert.setMessage("Silmek istediğinizden emin misiniz?");
+                                alert.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DbHelper dbHelper=new DbHelper(context);
+                                        database=dbHelper.getReadableDatabase();
+                                        long l;
+                                        l= database.delete(TABLENAME,"id="+stock.getId(),null);
+                                        if(l!=-1){
+                                            Toast.makeText(context,"Silindi",Toast.LENGTH_SHORT).show();
+                                            stockArrayList.remove(position);
+                                            notifyDataSetChanged();
+                                            ((MainActivity) context).getTotalPortfolio();
+                                            ((MainActivity) context).getProfitLoss();
+                                            ((MainActivity) context).getYuzde();
 
-                                DbHelper dbHelper=new DbHelper(context);
-                                database=dbHelper.getReadableDatabase();
-                                long l;
-                                l= database.delete(TABLENAME,"id="+stock.getId(),null);
-                                if(l!=-1){
-                                    Toast.makeText(context,"Silindi",Toast.LENGTH_SHORT).show();
-                                    stockArrayList.remove(position);
-                                    notifyDataSetChanged();
-                                    ((MainActivity) context).getTotalPortfolio();
-                                    ((MainActivity) context).getProfitLoss();
-                                    ((MainActivity) context).getYuzde();
-
-                                }
-                                else{
-                                    Toast.makeText(context,"İşlem başarısız",Toast.LENGTH_SHORT).show();
-                                }
+                                        }
+                                        else{
+                                            Toast.makeText(context,"İşlem başarısız",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                                alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                alert.show();
                             }
                             else if(menuItem.getItemId()==R.id.flowBuy){
                                 //alma ekranı
@@ -169,8 +186,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                             }
                             else if(menuItem.getItemId()==R.id.flowDSell){
                                 //Satış ekranı
-
-
                                 Intent intent=new Intent(context, SellActivity.class);
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);

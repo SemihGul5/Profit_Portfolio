@@ -40,6 +40,7 @@ public class AddStock extends AppCompatActivity {
     double yuzde;
     double ortMaliyet;
     double kalanAdet;
+    double sellPieces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,7 +157,8 @@ public class AddStock extends AppCompatActivity {
                 {
                     if (binding.stockNameText.getText().toString().isEmpty() ||
                             binding.piecesText.getText().toString().isEmpty() ||
-                            binding.buyPriceText.getText().toString().isEmpty()
+                            binding.buyPriceText.getText().toString().isEmpty() ||
+                            binding.komisyonText.getText().toString().isEmpty()
                     ) {
                         Snackbar.make(v, "Gerekli alanları doldurunuz.", Snackbar.LENGTH_SHORT).show();
                     }
@@ -180,14 +182,18 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("total", binding.totalAmountText.getText().toString());
                             contentValues.put("yuzde", binding.yuzdeText.getText().toString());
                             contentValues.put("ortMaliyet",ortMaliyet);
+                            contentValues.put("sellPieces",sellPieces);
 
                             database = dbHelper.getWritableDatabase();
+
                             long result = database.insert(TABLENAME, null, contentValues);
 
                             if (result != -1) {
                                 Toast.makeText(AddStock.this, "Kayıt Başarılı", Toast.LENGTH_SHORT).show();
 
-
+                                ((MainActivity) getApplicationContext()).getTotalPortfolio();
+                                ((MainActivity) getApplicationContext()).getProfitLoss();
+                                ((MainActivity) getApplicationContext()).getYuzde();
                                 binding.textView3.setVisibility(View.VISIBLE);
                                 binding.textView5.setVisibility(View.VISIBLE);
                                 binding.textView6.setVisibility(View.VISIBLE);
@@ -207,8 +213,9 @@ public class AddStock extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(AddStock.this, "Bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(AddStock.this, "Bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 }
                 else{
@@ -240,7 +247,7 @@ public class AddStock extends AppCompatActivity {
                 yuzde=(profitLoss/amount)*100;
                 ortMaliyet=amount/pieces;
                 kalanAdet=0;
-
+                sellPieces=pieces;
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
@@ -253,7 +260,7 @@ public class AddStock extends AppCompatActivity {
                 yuzde=(profitLoss/amount)*100;
                 ortMaliyet=amount/pieces;
                 kalanAdet=0;
-
+                sellPieces=pieces;
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = 0;
@@ -266,6 +273,7 @@ public class AddStock extends AppCompatActivity {
                  yuzde=(profitLoss/amount)*100;
                  ortMaliyet=amount/pieces;
                  kalanAdet=pieces;
+                sellPieces=0;
             }
             else{
                 sellPrice = 0;
@@ -278,6 +286,7 @@ public class AddStock extends AppCompatActivity {
                 yuzde=0;
                 ortMaliyet=amount/pieces;
                 kalanAdet=pieces;
+                sellPieces=0;
             }
 
             String resultProfitLoss = "";
