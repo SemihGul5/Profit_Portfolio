@@ -96,7 +96,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                 bundle.putString("buyDate",stock.getBuyDate());
                 bundle.putString("sellDate",stock.getSellDate());
                 bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());
-                bundle.putDouble("stockPriceSell",stock.getStockPriceSell());
+                bundle.putString("stockPriceSell",stock.getStockPriceSell());
                 bundle.putDouble("amount",stock.getAmount());
                 bundle.putDouble("profitAndLoss",stock.getProfitAndLoss());
                 bundle.putDouble("komisyon",stock.getKomisyon());
@@ -130,7 +130,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                         bundle.putString("buyDate",stock.getBuyDate());
                         bundle.putString("sellDate",stock.getSellDate());
                         bundle.putDouble("stockPriceBuy",stock.getStockPriceBuy());
-                        bundle.putDouble("stockPriceSell",stock.getStockPriceSell());
+                        bundle.putString("stockPriceSell",stock.getStockPriceSell());
                         bundle.putDouble("amount",stock.getAmount());
                         bundle.putDouble("profitAndLoss",stock.getProfitAndLoss());
                         bundle.putDouble("komisyon",stock.getKomisyon());

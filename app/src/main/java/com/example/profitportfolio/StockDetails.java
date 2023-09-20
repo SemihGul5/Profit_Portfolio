@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.profitportfolio.databinding.ActivityStockDetailsBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
+import java.util.SplittableRandom;
 
 public class StockDetails extends AppCompatActivity {
     private ActivityStockDetailsBinding binding;
@@ -28,7 +30,8 @@ public class StockDetails extends AppCompatActivity {
 
     int id;
     public static String color="";
-    double ortMaliyet,sellPieces;
+    double ortMaliyet,sellPieces,pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX;
+    String stockName,buydate,sellDate,stockPriceSell;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,51 @@ public class StockDetails extends AppCompatActivity {
 
         editData();
         colorControl();
+        buyButton();
+        sellButton();
+
+    }
+    private void getBundle(Intent intent){
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        bundle.putString("name",stockName);
+        bundle.putDouble("pieces",pieces);
+        bundle.putString("buyDate",buydate);
+        bundle.putString("sellDate",sellDate);
+        bundle.putDouble("stockPriceBuy",stockPriceBuy);
+        bundle.putString("stockPriceSell",stockPriceSell);
+        bundle.putDouble("amount",amount);
+        bundle.putDouble("profitAndLoss",prof);
+        bundle.putDouble("komisyon",komisyon);
+        bundle.putDouble("total",total);
+        bundle.putDouble("yuzde",yuzde);
+        bundle.putDouble("ortMaliyet",ortMaliyetX);
+        bundle.putDouble("sellPieces",sellPiecesX);
+        intent.putExtra("userData", bundle);
+    }
+
+    private void buyButton() {
+        binding.buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StockDetails.this, BuyActivity.class);
+                getBundle(intent);
+                startActivity(intent);
+
+
+            }
+        });
+    }
+
+    private void sellButton() {
+        binding.sellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StockDetails.this, SellActivity.class);
+                getBundle(intent);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -55,27 +103,15 @@ public class StockDetails extends AppCompatActivity {
         amount=Double.parseDouble(binding.amountText.getText().toString());
         total=Double.parseDouble(binding.totalAmountText.getText().toString());
         if(total>amount){
-            binding.totalAmountText.setTextColor(getResources().getColor(R.color.green));
             binding.profitLossText.setTextColor(getResources().getColor(R.color.green));
-            binding.text9.setTextColor(getResources().getColor(R.color.green));
-            binding.text10.setTextColor(getResources().getColor(R.color.green));
-            binding.text12.setTextColor(getResources().getColor(R.color.green));
             binding.yuzdeText.setTextColor(getResources().getColor(R.color.green));
         }
         else if(total==amount){
-            binding.totalAmountText.setTextColor(getResources().getColor(R.color.black));
             binding.profitLossText.setTextColor(getResources().getColor(R.color.black));
-            binding.text9.setTextColor(getResources().getColor(R.color.black));
-            binding.text10.setTextColor(getResources().getColor(R.color.black));
-            binding.text12.setTextColor(getResources().getColor(R.color.black));
             binding.yuzdeText.setTextColor(getResources().getColor(R.color.black));
         }
         else{
-            binding.totalAmountText.setTextColor(getResources().getColor(R.color.red));
             binding.profitLossText.setTextColor(getResources().getColor(R.color.red));
-            binding.text9.setTextColor(getResources().getColor(R.color.red));
-            binding.text10.setTextColor(getResources().getColor(R.color.red));
-            binding.text12.setTextColor(getResources().getColor(R.color.red));
             binding.yuzdeText.setTextColor(getResources().getColor(R.color.red));
         }
     }
@@ -106,30 +142,63 @@ public class StockDetails extends AppCompatActivity {
         if(getIntent().getBundleExtra("userData")!=null){
             Bundle bundle= getIntent().getBundleExtra("userData");
             assert bundle != null;
-            binding.stockNameText.setText(bundle.getString("name"));
-            binding.piecesText.setText(String.valueOf(bundle.getDouble("pieces")) );
-            binding.buyPriceText.setText(String.valueOf(bundle.getDouble("stockPriceBuy")) );
-            String stockPriceSell = bundle.getString("stockPriceSell");
-            if (stockPriceSell != null) {
-                double sellp = Double.parseDouble(stockPriceSell);
-                String sellsp = String.format("%.2f", sellp);
-                binding.sellPriceText.setText(sellsp);
-            } else {
-                binding.sellPriceText.setText("Null");
+
+            stockName=bundle.getString("name");
+            binding.stockNameText.setText(stockName);
+
+            pieces=bundle.getDouble("pieces");
+            binding.piecesText.setText(String.valueOf(pieces));
+
+            stockPriceBuy=bundle.getDouble("stockPriceBuy");
+            double alis = bundle.getDouble("stockPriceBuy");
+            String aliss = String.format("%.2f TL", alis);
+            binding.buyPriceText.setText(aliss);
+
+            stockPriceSell=bundle.getString("stockPriceSell");
+            String gelen=bundle.getString("stockPriceSell");
+            if(gelen.isEmpty()){
+                gelen="null";
+                binding.sellPriceText.setText(gelen);
             }
-            binding.komisyonText.setText(String.valueOf(bundle.getDouble("komisyon")) );
-            binding.dateBuyText.setText(bundle.getString("buyDate"));
-            binding.dateSellText.setText(bundle.getString("sellDate"));
-            binding.amountText.setText(String.valueOf(bundle.getDouble("amount")) );
-            binding.totalAmountText.setText(String.valueOf(bundle.getDouble("total")) );
+            else{
+                double sell= Double.parseDouble(gelen);
+                String p = String.format("%.2f TL", sell);
+                binding.sellPriceText.setText(p);
+            }
+
+
+            komisyon=bundle.getDouble("komisyon");
+            double kom = bundle.getDouble("komisyon");
+            String komisyons = String.format("%.2f TL", kom);
+            binding.komisyonText.setText(komisyons);
+
+            buydate=bundle.getString("buyDate");
+            binding.dateBuyText.setText(buydate);
+
+            sellDate=bundle.getString("sellDate");
+            binding.dateSellText.setText(sellDate);
+
+            amount=bundle.getDouble("amount");
+            String maliyet= String.valueOf(bundle.getDouble("amount"));
+            binding.amountText.setText(maliyet);
+
+            total=bundle.getDouble("total");
+            binding.totalAmountText.setText(String.valueOf(total));
+
+            prof=bundle.getDouble("profitAndLoss" );
             String pronls = String.format("%.2f", bundle.getDouble("profitAndLoss" ));
             binding.profitLossText.setText(pronls);
+
+            yuzde=bundle.getDouble("yuzde");
             double yuzde = bundle.getDouble("yuzde");
             String formattedYuzde = String.format("%.2f", yuzde);
             binding.yuzdeText.setText(formattedYuzde);
-            sellPieces=bundle.getDouble("sellPieces" );
+
+            sellPiecesX=bundle.getDouble("sellPieces" );
+
+            ortMaliyetX=bundle.getDouble("ortMaliyet" );
             String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ));
-            binding.ortMaliyetText.setText(ortMaliyet);
+
             id=bundle.getInt("id");
 
         }

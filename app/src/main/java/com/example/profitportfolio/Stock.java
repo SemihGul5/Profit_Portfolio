@@ -7,7 +7,7 @@ public class Stock {
     private String buyDate;
     private String sellDate;
     private double stockPriceBuy;
-    private double stockPriceSell;
+    private String stockPriceSell;
     private double amount;
     private  double profitAndLoss;
     private double komisyon;
@@ -19,7 +19,7 @@ public class Stock {
 
 
 
-    public Stock(int id, String name, double pieces, String buyDate, String sellDate, double stockPriceBuy, double stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces) {
+    public Stock(int id, String name, double pieces, String buyDate, String sellDate, double stockPriceBuy, String stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -130,11 +130,11 @@ public class Stock {
         this.stockPriceBuy = stockPriceBuy;
     }
 
-    public double getStockPriceSell() {
+    public String getStockPriceSell() {
         return stockPriceSell;
     }
 
-    public void setStockPriceSell(double stockPriceSell) {
+    public void setStockPriceSell(String stockPriceSell) {
         this.stockPriceSell = stockPriceSell;
     }
 

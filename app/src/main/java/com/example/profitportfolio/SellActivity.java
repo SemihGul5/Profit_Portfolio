@@ -180,7 +180,7 @@ public class SellActivity extends AppCompatActivity {
             dateSell = bundle.getString("sellDate");
             oldbuyPrice = bundle.getDouble("stockPriceBuy");
             String stockPriceSell = bundle.getString("stockPriceSell");
-            if (stockPriceSell != null) {
+            if (!stockPriceSell.isEmpty()) {
                 oldsellPrice = Double.parseDouble(stockPriceSell);
             }
             else{

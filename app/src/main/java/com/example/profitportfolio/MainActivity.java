@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             String dateBuy=cursor.getString(dateBuyIx);
             String dateSell=cursor.getString(dateSellIx);
             double stockPricesBuy=cursor.getDouble(stockPricesBuyIx);
-            double stockPricesSell=cursor.getDouble(stockPricesSellIx);
+            String stockPricesSell=cursor.getString(stockPricesSellIx);
             double amount=cursor.getDouble(amountIx);
             double profitLoss=cursor.getDouble(profitLossIx);
             double komisyon=cursor.getDouble(komisyonIx);

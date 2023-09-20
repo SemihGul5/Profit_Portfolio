@@ -135,11 +135,18 @@ public class BuyActivity extends AppCompatActivity {
             olddateBuy = bundle.getString("buyDate");
             dateSell = bundle.getString("sellDate");
             oldbuyPrice = bundle.getDouble("stockPriceBuy");
-            String stockPriceSell = bundle.getString("stockPriceSell");
-            if (stockPriceSell != null) {
-                oldsellPrice = Double.parseDouble(stockPriceSell);
 
+
+            String gelen = bundle.getString("stockPriceSell");
+            if (gelen.isEmpty())
+            {
+                gelen="0";
+                oldsellPrice=Double.parseDouble(gelen);
             }
+            else{
+                oldsellPrice=Double.parseDouble(gelen);
+            }
+
             oldAmount = bundle.getDouble("amount");
             oldprofitAndLoss = bundle.getDouble("profitAndLoss");
             oldKomisyon = bundle.getDouble("komisyon");

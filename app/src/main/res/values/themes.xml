@@ -8,23 +8,23 @@
 
     </style>
 
-    <style name="Base.Theme.AddStock" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.AddStock" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="colorPrimary">@color/appBars</item>
         <item name="titleTextColor">@color/white</item>
 
     </style>
-    <style name="Base.Theme.DetailsStock" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.DetailsStock" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="colorPrimary">@color/appBars</item>
         <item name="titleTextColor">@color/white</item>
 
     </style>
 
-    <style name="Base.Theme.BuyActivity" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.BuyActivity" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="colorPrimary">@color/appBars</item>
         <item name="titleTextColor">@color/white</item>
 
     </style>
-    <style name="Base.Theme.SellActivity" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.SellActivity" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="colorPrimary">@color/appBars</item>
         <item name="titleTextColor">@color/white</item>
 
