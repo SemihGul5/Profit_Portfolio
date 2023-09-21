@@ -29,7 +29,7 @@ public class SellActivity extends AppCompatActivity {
     DbHelper dbHelper;
     String dateSell,olddateBuy,sellNewDate,oldSatisTutari;
     double pieces,st;
-    double sellPrice,komisyon,topAdet,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde,sellPieces;
+    double sellPrice,komisyon,topAdet,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde,sellPieces,maliyetKomisyon,oldMaliyetKomisyon;
     double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,calcSell,oldSellPieces,oldKalanAdet;
 
     @Override
@@ -93,6 +93,7 @@ public class SellActivity extends AppCompatActivity {
                             contentValues.put("sellPieces",sellPieces);
                             contentValues.put("kalanAdet",topAdet);
                             contentValues.put("satisTutari",st);
+                            contentValues.put("maliyetKomisyon",maliyetKomisyon);
                             database = dbHelper.getWritableDatabase();
                             long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
@@ -119,31 +120,32 @@ public class SellActivity extends AppCompatActivity {
         try {
             komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
             sellPrice = Double.parseDouble(binding.SellPriceText.getText().toString());
-            pieces = Integer.parseInt(binding.SellPiecesText.getText().toString());
+            pieces = Double.parseDouble(binding.SellPiecesText.getText().toString());
             sellNewDate = binding.SellDateSellText.getText().toString();
 
 
                 topAdet=oldKalanAdet-pieces;//yeni adet
                 sellPieces=oldSellPieces+pieces;//5
-                double maliyet=(sellPrice*pieces)+komisyon;//yeni tutar//100
+                double maliyet=(sellPrice*pieces);//yeni tutar//100
                 double AlisMaliyeti=oldortMaliyet*pieces;
                 calcKomisyon=komisyon+oldKomisyon;//0
 
                 if(!oldSatisTutari.equals("null")){
                     st =maliyet+Double.parseDouble(oldSatisTutari);
                     calcSell=st/sellPieces;
-                    calcProfitAndLoss=st-oldAmount;
+                    calcProfitAndLoss=st-oldAmount-calcKomisyon;
                 }
                 else{
                     st=maliyet;
                     calcSell=maliyet/sellPieces;
-                    calcProfitAndLoss=maliyet-AlisMaliyeti;
+                    calcProfitAndLoss=maliyet-AlisMaliyeti-calcKomisyon;
                 }
+                maliyetKomisyon=oldMaliyetKomisyon+komisyon;
+                calcTotal=maliyetKomisyon+calcProfitAndLoss;
 
-                calcTotal=oldAmount+calcProfitAndLoss;
 
-                calcYuzde=(calcProfitAndLoss/oldAmount)*100;
 
+                calcYuzde=(calcProfitAndLoss/(maliyetKomisyon))*100;
                 binding.amountText.setText(String.format("%.2f", maliyet));
 
         } catch (Exception e) {
@@ -203,7 +205,7 @@ public class SellActivity extends AppCompatActivity {
             oldortMaliyet = bundle.getDouble("ortMaliyet");
             oldSellPieces = bundle.getDouble("sellPieces");
             oldKalanAdet = bundle.getDouble("kalanAdet");
-
+            oldMaliyetKomisyon = bundle.getDouble("maliyetKomisyon");
             String satisTutar = bundle.getString("satisTutari");
             if (satisTutar.isEmpty()||satisTutar.equals("null")) {
                 oldSatisTutari="null";

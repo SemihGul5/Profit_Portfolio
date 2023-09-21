@@ -31,8 +31,8 @@ public class BuyActivity extends AppCompatActivity {
     DbHelper dbHelper;
     String dateSell,olddateBuy,buyNewDate,oldSatisTutari,oldsellPrice;
     double pieces;
-    double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
-    double oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces,oldKalanAdet;
+    double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal,maliyetKomisyon,karZarar,yuzde;
+    double oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces,oldKalanAdet,oldmaliyetKomisyon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,15 +76,15 @@ public class BuyActivity extends AppCompatActivity {
                         contentValues.put("stockPriceBuy",calcOrt);
                         contentValues.put("stockPriceSell",oldsellPrice);
                         contentValues.put("amount",calcAmount);
-                        contentValues.put("profitAndLoss",oldprofitAndLoss);
+                        contentValues.put("profitAndLoss",karZarar);
                         contentValues.put("komisyon",calcKomisyon);
                         contentValues.put("total",calcTotal);
-                        contentValues.put("yuzde",oldyuzde);
+                        contentValues.put("yuzde",yuzde);
                         contentValues.put("ortMaliyet",calcOrt);
                         contentValues.put("sellPieces",oldSellPieces);
                         contentValues.put("kalanAdet",topAdet);
                         contentValues.put("satisTutari",oldSatisTutari);
-
+                        contentValues.put("maliyetKomisyon",maliyetKomisyon);
                         database = dbHelper.getWritableDatabase();
                         long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
@@ -115,13 +115,20 @@ public class BuyActivity extends AppCompatActivity {
 
             topAdet=pieces+oldKalanAdet;//toplam adet
             double adet=topAdet+oldSellPieces;
-            amount=(buyPrice*pieces)+komisyon;//girilen tutar
+            amount=(buyPrice*pieces);//girilen tutar
 
             calcAmount=amount+oldAmount;//eski + yeni tutar
 
             calcKomisyon=komisyon+oldKomisyon;//komisyon toplamı eski + yeni
             calcTotal=oldTotal+amount;//toplam tutar eski + yeni
             calcOrt=(calcAmount)/adet;
+
+            maliyetKomisyon=oldmaliyetKomisyon+komisyon+amount;
+
+            karZarar=oldprofitAndLoss-komisyon;
+
+            yuzde=(karZarar/(calcKomisyon+calcAmount))*100;
+
 
             binding.amountText.setText(String.format("%.2f", amount));
             binding.hesaplananText.setText(String.format("%.2f", calcOrt));
@@ -162,7 +169,7 @@ public class BuyActivity extends AppCompatActivity {
             oldortMaliyet = bundle.getDouble("ortMaliyet");
             oldSellPieces = bundle.getDouble("sellPieces");
             oldKalanAdet=bundle.getDouble("kalanAdet");
-
+            oldmaliyetKomisyon=bundle.getDouble("maliyetKomisyon");
             String stutar = bundle.getString("satisTutari");
             if (stutar.equals("")||stutar.equals("null"))
             {

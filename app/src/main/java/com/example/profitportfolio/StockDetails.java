@@ -30,7 +30,7 @@ public class StockDetails extends AppCompatActivity {
 
     int id;
     public static String color="";
-    double pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX,kalanAdet;
+    double pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX,kalanAdet,maliyetKomisyon;
     String stockName,buydate,sellDate,stockPriceSell,satisTutari;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class StockDetails extends AppCompatActivity {
         bundle.putDouble("sellPieces",sellPiecesX);
         bundle.putDouble("kalanAdet",kalanAdet);
         bundle.putString("satisTutari",satisTutari);
+        bundle.putDouble("maliyetKomisyon",maliyetKomisyon);
         intent.putExtra("userData", bundle);
     }
 
@@ -183,7 +184,7 @@ public class StockDetails extends AppCompatActivity {
 
             amount=bundle.getDouble("amount");
             String maliyet= String.valueOf(bundle.getDouble("amount"));
-            binding.amountText.setText(maliyet);
+
 
             total=bundle.getDouble("total");
             binding.totalAmountText.setText(String.valueOf(total));
@@ -198,6 +199,9 @@ public class StockDetails extends AppCompatActivity {
             binding.yuzdeText.setText(formattedYuzde);
 
             sellPiecesX=bundle.getDouble("sellPieces" );
+            maliyetKomisyon=bundle.getDouble("maliyetKomisyon" );
+            binding.amountText.setText(String.valueOf(maliyetKomisyon));
+
 
             ortMaliyetX=bundle.getDouble("ortMaliyet" );
             String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ))+" TL";
@@ -206,6 +210,7 @@ public class StockDetails extends AppCompatActivity {
 
             kalanAdet=bundle.getDouble("kalanAdet");
             binding.piecesText.setText(String.valueOf(kalanAdet));
+
 
 
             String sTutar=bundle.getString("satisTutari");

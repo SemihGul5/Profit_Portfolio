@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         database = dbHelper.getReadableDatabase();
 
         // SQL sorgusu ile toplam kar/zararı ve toplam tutarı al.
-        Cursor cursor = database.rawQuery("SELECT SUM(profitAndLoss), SUM(amount) FROM " + DbHelper.TABLENAME, null);
+        Cursor cursor = database.rawQuery("SELECT SUM(profitAndLoss), SUM(maliyetKomisyon) FROM " + DbHelper.TABLENAME, null);
 
         if (cursor.moveToFirst()) {
             double totalProfitLoss = cursor.getDouble(0);
@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         int sellPIx=cursor.getColumnIndex("sellPieces");
         int kalanAdetIx=cursor.getColumnIndex("kalanAdet");
         int satisIx=cursor.getColumnIndex("satisTutari");
+        int mkix=cursor.getColumnIndex("maliyetKomisyon");
         while (cursor.moveToNext())
         {
             int id=cursor.getInt(idIx);
@@ -217,9 +218,10 @@ public class MainActivity extends AppCompatActivity {
             double sellPieces=cursor.getDouble(sellPIx);
             double kalanAdet=cursor.getDouble(kalanAdetIx);
             String satisTutari=cursor.getString(satisIx);
+            double maliyetKomisyon=cursor.getDouble(mkix);
 
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort,sellPieces,kalanAdet,satisTutari);
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort,sellPieces,kalanAdet,satisTutari,maliyetKomisyon);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();

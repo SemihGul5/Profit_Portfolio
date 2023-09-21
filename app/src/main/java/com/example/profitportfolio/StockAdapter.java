@@ -106,6 +106,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                 bundle.putDouble("sellPieces",stock.getSellPieces());
                 bundle.putDouble("kalanAdet",stock.getKalanAdet());
                 bundle.putString("satisTutari",stock.getSatisTutari());
+                bundle.putDouble("maliyetKomisyon",stock.getMaliyetKomisyon());
                 intent.putExtra("userData", bundle);
                 context.startActivity(intent);
             }
@@ -142,6 +143,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                         bundle.putDouble("sellPieces",stock.getSellPieces());
                         bundle.putDouble("kalanAdet",stock.getKalanAdet());
                         bundle.putString("satisTutari",stock.getSatisTutari());
+                        bundle.putDouble("maliyetKomisyon",stock.getMaliyetKomisyon());
                         try {
                             //Sil menü
                             if(menuItem.getItemId()==R.id.flowDelete){
