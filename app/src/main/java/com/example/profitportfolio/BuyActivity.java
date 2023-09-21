@@ -28,10 +28,10 @@ public class BuyActivity extends AppCompatActivity {
     int id;
     SQLiteDatabase database;
     DbHelper dbHelper;
-    String dateSell,olddateBuy,buyNewDate;
+    String dateSell,olddateBuy,buyNewDate,oldSatisTutari,oldsellPrice;
     double pieces;
     double buyPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal;
-    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces;
+    double oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,oldSellPieces,oldKalanAdet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +81,15 @@ public class BuyActivity extends AppCompatActivity {
                         contentValues.put("yuzde",oldyuzde);
                         contentValues.put("ortMaliyet",calcOrt);
                         contentValues.put("sellPieces",oldSellPieces);
+                        contentValues.put("kalanAdet",topAdet);
+                        contentValues.put("satisTutari",oldSatisTutari);
 
                         database = dbHelper.getWritableDatabase();
                         long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
                         if (l != -1) {
                             Toast.makeText(BuyActivity.this, "Güncellendi", Toast.LENGTH_SHORT).show();
-
+                            finish();
 
                         } else {
                             Toast.makeText(BuyActivity.this, "Kayıt Başarısız", Toast.LENGTH_SHORT).show();
@@ -105,15 +107,23 @@ public class BuyActivity extends AppCompatActivity {
 
             komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
             buyPrice = Double.parseDouble(binding.BuyPriceText.getText().toString());
-            pieces = Integer.parseInt(binding.BuyPiecesText.getText().toString());
+            pieces = Double.parseDouble(binding.BuyPiecesText.getText().toString());
             buyNewDate = binding.BuyDateBuyText.getText().toString();
 
-            topAdet=pieces+oldbuyPieces;
-            amount=(buyPrice*pieces)+komisyon;
-            calcAmount=amount+oldAmount;
-            calcKomisyon=komisyon+oldKomisyon;
-            calcTotal=oldTotal+amount;
-            calcOrt=(oldAmount+(amount))/topAdet;
+            topAdet=pieces+oldKalanAdet;//toplam adet
+            double adet=topAdet+oldSellPieces;
+            amount=(buyPrice*pieces)+komisyon;//girilen tutar
+
+            calcAmount=amount+oldAmount;//eski + yeni tutar
+
+            calcKomisyon=komisyon+oldKomisyon;//komisyon toplamı eski + yeni
+            calcTotal=oldTotal+amount;//toplam tutar eski + yeni
+            calcOrt=(calcAmount)/adet;
+
+            //toplam maliyet/ toplam alış adet
+
+
+
 
 
             binding.amountText.setText(String.format("%.2f", amount));
@@ -141,10 +151,10 @@ public class BuyActivity extends AppCompatActivity {
             if (gelen.isEmpty())
             {
                 gelen="0";
-                oldsellPrice=Double.parseDouble(gelen);
+                oldsellPrice= gelen;
             }
             else{
-                oldsellPrice=Double.parseDouble(gelen);
+                oldsellPrice= gelen;
             }
 
             oldAmount = bundle.getDouble("amount");
@@ -154,6 +164,17 @@ public class BuyActivity extends AppCompatActivity {
             oldyuzde = bundle.getDouble("yuzde");
             oldortMaliyet = bundle.getDouble("ortMaliyet");
             oldSellPieces = bundle.getDouble("sellPieces");
+            oldKalanAdet=bundle.getDouble("kalanAdet");
+
+            String stutar = bundle.getString("satisTutari");
+            if (stutar.isEmpty())
+            {
+                stutar="";
+                oldSatisTutari="";
+            }
+            else{
+                oldSatisTutari= String.valueOf(Double.parseDouble(stutar));
+            }
         } else {
 
             Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();

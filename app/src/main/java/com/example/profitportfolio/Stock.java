@@ -16,10 +16,11 @@ public class Stock {
     private double yuzde;
     private double ortMaliyet;
     private double sellPieces;
+    private double kalanAdet;
+    private String satisTutari;
 
 
-
-    public Stock(int id, String name, double pieces, String buyDate, String sellDate, double stockPriceBuy, String stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces) {
+    public Stock(int id, String name, double pieces, String buyDate, String sellDate, double stockPriceBuy, String stockPriceSell, double amount, double profitAndLoss, double komisyon,double totalAmount,double yuzde,double ortMaliyet,double sellPieces,double kalanAdet,String satisTutari) {
         this.id = id;
         this.name = name;
         this.pieces = pieces;
@@ -34,6 +35,25 @@ public class Stock {
         this.yuzde=yuzde;
         this.ortMaliyet=ortMaliyet;
         this.sellPieces=sellPieces;
+        this.kalanAdet=kalanAdet;
+        this.satisTutari=satisTutari;
+    }
+
+
+    public String getSatisTutari() {
+        return satisTutari;
+    }
+
+    public void setSatisTutari(String satisTutari) {
+        this.satisTutari = satisTutari;
+    }
+
+    public double getKalanAdet() {
+        return kalanAdet;
+    }
+
+    public void setKalanAdet(double kalanAdet) {
+        this.kalanAdet = kalanAdet;
     }
 
     public double getYuzde() {

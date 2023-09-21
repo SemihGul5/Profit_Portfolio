@@ -30,8 +30,8 @@ public class StockDetails extends AppCompatActivity {
 
     int id;
     public static String color="";
-    double ortMaliyet,sellPieces,pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX;
-    String stockName,buydate,sellDate,stockPriceSell;
+    double ortMaliyet,sellPieces,pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX,kalanAdet;
+    String stockName,buydate,sellDate,stockPriceSell,satisTutari;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +70,8 @@ public class StockDetails extends AppCompatActivity {
         bundle.putDouble("yuzde",yuzde);
         bundle.putDouble("ortMaliyet",ortMaliyetX);
         bundle.putDouble("sellPieces",sellPiecesX);
+        bundle.putDouble("kalanAdet",kalanAdet);
+        bundle.putString("satisTutari",satisTutari);
         intent.putExtra("userData", bundle);
     }
 
@@ -147,7 +149,7 @@ public class StockDetails extends AppCompatActivity {
             binding.stockNameText.setText(stockName);
 
             pieces=bundle.getDouble("pieces");
-            binding.piecesText.setText(String.valueOf(pieces));
+
 
             stockPriceBuy=bundle.getDouble("stockPriceBuy");
             double alis = bundle.getDouble("stockPriceBuy");
@@ -155,13 +157,13 @@ public class StockDetails extends AppCompatActivity {
             binding.buyPriceText.setText(aliss);
 
             stockPriceSell=bundle.getString("stockPriceSell");
-            String gelen=bundle.getString("stockPriceSell");
-            if(gelen.isEmpty()){
-                gelen="null";
-                binding.sellPriceText.setText(gelen);
+
+            if(stockPriceSell.equals("")){
+                stockPriceSell="null";
+                binding.sellPriceText.setText(stockPriceSell);
             }
             else{
-                double sell= Double.parseDouble(gelen);
+                double sell= Double.parseDouble(stockPriceSell);
                 String p = String.format("%.2f TL", sell);
                 binding.sellPriceText.setText(p);
             }
@@ -200,6 +202,23 @@ public class StockDetails extends AppCompatActivity {
             String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ));
 
             id=bundle.getInt("id");
+
+            kalanAdet=bundle.getDouble("kalanAdet");
+            binding.piecesText.setText(String.valueOf(kalanAdet));
+
+
+            String sTutar=bundle.getString("satisTutari");
+            if(sTutar.equals("")){
+                satisTutari="null";
+                //binding.sellPriceText.setText("null");
+            }
+            else{
+                double satisTutar= Double.parseDouble(sTutar);
+                satisTutari= String.valueOf(satisTutar);
+                String sp = String.format("%.2f TL", satisTutar);
+                //binding.sellPriceText.setText(sp);
+            }
+
 
         }
     }

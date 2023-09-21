@@ -39,8 +39,8 @@ public class AddStock extends AppCompatActivity {
     public static String color="";
     double yuzde;
     double ortMaliyet;
-    double kalanAdet;
-    double sellPieces,karZarar;
+    double sellPieces,karZarar,satisAdet,kalanAdetDb;
+    String satisTutari;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +171,7 @@ public class AddStock extends AppCompatActivity {
                             calculateAmountAndProfitLoss();
                             ContentValues contentValues = new ContentValues();
                             contentValues.put("name", binding.stockNameText.getText().toString());
-                            contentValues.put("pieces",kalanAdet);
+                            contentValues.put("pieces",pieces);
                             contentValues.put("buyDate", binding.dateBuyText.getText().toString());
                             contentValues.put("sellDate", binding.dateSellText.getText().toString());
                             contentValues.put("stockPriceBuy", binding.buyPriceText.getText().toString());
@@ -183,7 +183,8 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("yuzde", yuzde);
                             contentValues.put("ortMaliyet",ortMaliyet);
                             contentValues.put("sellPieces",sellPieces);
-
+                            contentValues.put("kalanAdet",kalanAdetDb);
+                            contentValues.put("satisTutari",satisTutari);
                             database = dbHelper.getWritableDatabase();
 
                             long result = database.insert(TABLENAME, null, contentValues);
@@ -236,8 +237,9 @@ public class AddStock extends AppCompatActivity {
                 totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
                 ortMaliyet=amount/pieces;
-                kalanAdet=0;
                 sellPieces=pieces;
+                kalanAdetDb=0;
+                satisTutari= String.valueOf(totalAmount);
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
@@ -249,8 +251,9 @@ public class AddStock extends AppCompatActivity {
                  totalAmount = amount + profitLoss;
                 yuzde=(profitLoss/amount)*100;
                 ortMaliyet=amount/pieces;
-                kalanAdet=0;
+                kalanAdetDb=0;
                 sellPieces=pieces;
+                satisTutari= String.valueOf(totalAmount);
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = 0;
@@ -262,8 +265,9 @@ public class AddStock extends AppCompatActivity {
                  totalAmount = amount-komisyon;
                  yuzde=(profitLoss/amount)*100;
                  ortMaliyet=amount/pieces;
-                 kalanAdet=pieces;
-                sellPieces=0;
+                 sellPieces=0;
+                 kalanAdetDb=pieces;
+                 satisTutari="";
             }
             else{
                 sellPrice = 0;
@@ -273,10 +277,11 @@ public class AddStock extends AppCompatActivity {
                  amount = buyPrice * pieces;
                  profitLoss = 0;
                  totalAmount = amount;
-                yuzde=0;
+                 yuzde=0;
                 ortMaliyet=amount/pieces;
-                kalanAdet=pieces;
                 sellPieces=0;
+                kalanAdetDb=pieces;
+                satisTutari="";
             }
             karZarar=totalAmount-amount;
 

@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         int yuzdeIx=cursor.getColumnIndex("yuzde");
         int ortIx=cursor.getColumnIndex("ortMaliyet");
         int sellPIx=cursor.getColumnIndex("sellPieces");
+        int kalanAdetIx=cursor.getColumnIndex("kalanAdet");
+        int satisIx=cursor.getColumnIndex("satisTutari");
         while (cursor.moveToNext())
         {
             int id=cursor.getInt(idIx);
@@ -211,9 +213,11 @@ public class MainActivity extends AppCompatActivity {
             double yuzde=cursor.getDouble(yuzdeIx);
             double ort=cursor.getDouble(ortIx);
             double sellPieces=cursor.getDouble(sellPIx);
+            double kalanAdet=cursor.getDouble(kalanAdetIx);
+            String satisTutari=cursor.getString(satisIx);
 
 
-            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort,sellPieces);
+            Stock stock= new Stock(id,name,pieces,dateBuy,dateSell,stockPricesBuy,stockPricesSell,amount,profitLoss,komisyon,total,yuzde,ort,sellPieces,kalanAdet,satisTutari);
             stockArrayList.add(stock);
         }
         adapter.notifyDataSetChanged();

@@ -26,10 +26,10 @@ public class SellActivity extends AppCompatActivity {
     int id;
     SQLiteDatabase database;
     DbHelper dbHelper;
-    String dateSell,olddateBuy,sellNewDate;
-    double pieces;
-    double sellPrice,amount,komisyon,topAdet,calcOrt,calcAmount,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde,sellPieces;
-    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,calcSell,oldSellPieces;
+    String dateSell,olddateBuy,sellNewDate,oldSatisTutari;
+    double pieces,st;
+    double sellPrice,komisyon,topAdet,calcKomisyon,calcTotal,calcProfitAndLoss,calcYuzde,sellPieces;
+    double oldsellPrice,oldTotal,oldyuzde,oldbuyPrice,oldKomisyon=0,oldAmount,oldbuyPieces,oldortMaliyet,oldprofitAndLoss,calcSell,oldSellPieces,oldKalanAdet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,8 @@ public class SellActivity extends AppCompatActivity {
 
         dbHelper= new DbHelper(this);
         getSelectedData();
-        binding.adetBilgiText.setText("Satılabilir adet: "+String.valueOf(oldbuyPieces) );
-        if(oldbuyPieces==0){
+        binding.adetBilgiText.setText("Satılabilir adet: "+String.valueOf(oldKalanAdet) );
+        if(oldKalanAdet==0){
             Snackbar.make(view,"Bu hisseden satılabilir lot kalmamıştır!",Snackbar.LENGTH_INDEFINITE).show();
             binding.saveButton.setVisibility(View.INVISIBLE);
         }
@@ -72,13 +72,13 @@ public class SellActivity extends AppCompatActivity {
                 else{
                     try {
                         calculateAmountAndProfitLoss();
-                        if(oldbuyPieces<pieces){
-                            Toast.makeText(SellActivity.this, "En fazla "+oldbuyPieces+" tane satım yapabilirsiniz", Toast.LENGTH_SHORT).show();
+                        if(oldKalanAdet<pieces){
+                            Toast.makeText(SellActivity.this, "En fazla "+oldKalanAdet+" tane satım yapabilirsiniz", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             ContentValues contentValues = new ContentValues();
                             contentValues.put("name",binding.SellStockNameText.getText().toString());
-                            contentValues.put("pieces",topAdet);
+                            contentValues.put("pieces",oldbuyPieces);
                             contentValues.put("buyDate",olddateBuy);
                             contentValues.put("sellDate",sellNewDate);
                             contentValues.put("stockPriceBuy",oldbuyPrice);
@@ -90,6 +90,8 @@ public class SellActivity extends AppCompatActivity {
                             contentValues.put("yuzde",calcYuzde);
                             contentValues.put("ortMaliyet",oldortMaliyet);
                             contentValues.put("sellPieces",sellPieces);
+                            contentValues.put("kalanAdet",topAdet);
+                            contentValues.put("satisTutari",st);
                             database = dbHelper.getWritableDatabase();
                             long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
@@ -113,30 +115,34 @@ public class SellActivity extends AppCompatActivity {
 
     private void calculateAmountAndProfitLoss() {
         try {
-
             komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
             sellPrice = Double.parseDouble(binding.SellPriceText.getText().toString());
             pieces = Integer.parseInt(binding.SellPiecesText.getText().toString());
             sellNewDate = binding.SellDateSellText.getText().toString();
 
 
-                topAdet=oldbuyPieces-pieces;
+                topAdet=oldKalanAdet-pieces;//yeni adet
+                sellPieces=oldSellPieces+pieces;//5
+                double maliyet=(sellPrice*pieces)+komisyon;//yeni tutar//100
+                double AlisMaliyeti=oldortMaliyet*pieces;
+                calcKomisyon=komisyon+oldKomisyon;//0
 
-                amount=(sellPrice*pieces)+komisyon;
-                calcKomisyon=komisyon+oldKomisyon;
-                calcSell=amount/pieces;
+                if(!oldSatisTutari.equals("null")){
+                    st =maliyet+Double.parseDouble(oldSatisTutari);
+                    calcSell=st/sellPieces;
+                    calcProfitAndLoss=st-oldAmount;
+                }
+                else{
+                    st=maliyet;
+                    calcSell=maliyet/sellPieces;
+                    calcProfitAndLoss=maliyet-AlisMaliyeti;
+                }
 
-                double x=(pieces*oldbuyPrice)+oldKomisyon;
+                calcTotal=oldAmount+calcProfitAndLoss;
 
-                calcProfitAndLoss=oldprofitAndLoss+(amount-x);
-                calcTotal=oldTotal+calcProfitAndLoss;
                 calcYuzde=(calcProfitAndLoss/oldAmount)*100;
-                sellPieces=pieces;
 
-
-                binding.amountText.setText(String.format("%.2f", amount));
-
-
+                binding.amountText.setText(String.format("%.2f", maliyet));
 
         } catch (Exception e) {
             Toast.makeText(SellActivity.this, "Hesaplama sırasında bir hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -193,6 +199,15 @@ public class SellActivity extends AppCompatActivity {
             oldyuzde = bundle.getDouble("yuzde");
             oldortMaliyet = bundle.getDouble("ortMaliyet");
             oldSellPieces = bundle.getDouble("sellPieces");
+            oldKalanAdet = bundle.getDouble("kalanAdet");
+
+            String satisTutar = bundle.getString("satisTutari");
+            if (!satisTutar.equals("")) {
+                oldSatisTutari = satisTutar;
+            }
+            else{
+                oldSatisTutari="null";
+            }
         } else {
 
             Toast.makeText(this, "Veri alınamadı. Hata!", Toast.LENGTH_SHORT).show();
