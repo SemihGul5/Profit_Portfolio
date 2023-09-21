@@ -30,7 +30,7 @@ public class StockDetails extends AppCompatActivity {
 
     int id;
     public static String color="";
-    double ortMaliyet,sellPieces,pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX,kalanAdet;
+    double pieces,stockPriceBuy,amount,prof,komisyon,total,yuzde,ortMaliyetX,sellPiecesX,kalanAdet;
     String stockName,buydate,sellDate,stockPriceSell,satisTutari;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,7 @@ public class StockDetails extends AppCompatActivity {
         if(total>amount){
             binding.profitLossText.setTextColor(getResources().getColor(R.color.green));
             binding.yuzdeText.setTextColor(getResources().getColor(R.color.green));
+
         }
         else if(total==amount){
             binding.profitLossText.setTextColor(getResources().getColor(R.color.black));
@@ -153,7 +154,7 @@ public class StockDetails extends AppCompatActivity {
 
             stockPriceBuy=bundle.getDouble("stockPriceBuy");
             double alis = bundle.getDouble("stockPriceBuy");
-            String aliss = String.format("%.2f TL", alis);
+            String aliss = String.format("%.2fTL", alis);
             binding.buyPriceText.setText(aliss);
 
             stockPriceSell=bundle.getString("stockPriceSell");
@@ -164,14 +165,14 @@ public class StockDetails extends AppCompatActivity {
             }
             else{
                 double sell= Double.parseDouble(stockPriceSell);
-                String p = String.format("%.2f TL", sell);
+                String p = String.format("%.2fTL", sell);
                 binding.sellPriceText.setText(p);
             }
 
 
             komisyon=bundle.getDouble("komisyon");
             double kom = bundle.getDouble("komisyon");
-            String komisyons = String.format("%.2f TL", kom);
+            String komisyons = String.format("%.2fTL", kom);
             binding.komisyonText.setText(komisyons);
 
             buydate=bundle.getString("buyDate");
@@ -188,18 +189,18 @@ public class StockDetails extends AppCompatActivity {
             binding.totalAmountText.setText(String.valueOf(total));
 
             prof=bundle.getDouble("profitAndLoss" );
-            String pronls = String.format("%.2f", bundle.getDouble("profitAndLoss" ));
+            String pronls = String.format("%.2fTL", bundle.getDouble("profitAndLoss" ));
             binding.profitLossText.setText(pronls);
 
             yuzde=bundle.getDouble("yuzde");
             double yuzde = bundle.getDouble("yuzde");
-            String formattedYuzde = String.format("%.2f", yuzde);
+            String formattedYuzde ="%" +String.format("%.2f", yuzde);
             binding.yuzdeText.setText(formattedYuzde);
 
             sellPiecesX=bundle.getDouble("sellPieces" );
 
             ortMaliyetX=bundle.getDouble("ortMaliyet" );
-            String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ));
+            String ortMaliyet = String.format("%.2f", bundle.getDouble("ortMaliyet" ))+" TL";
 
             id=bundle.getInt("id");
 

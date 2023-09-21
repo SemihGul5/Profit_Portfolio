@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     StockAdapter adapter;
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         
 
         fab();
-        getTotalPortfolio();
+        //getTotalPortfolio();
         getProfitLoss();
         getYuzde();
+        adapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+   /* @SuppressLint("NotifyDataSetChanged")
     public void getTotalPortfolio() {
         double totalPortfolio = 0;
         database = dbHelper.getReadableDatabase();
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             totalPieces = cursor.getInt(0);
         }
         cursor.close();
-        cursor = database.rawQuery("SELECT SUM(sellPieces) FROM " + DbHelper.TABLENAME, null);
+        cursor = database.rawQuery("SELECT SUM(kalanAdet) FROM " + DbHelper.TABLENAME, null);
         int sellPieces = 0;
 
         if (cursor.moveToFirst()) {
@@ -90,13 +92,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // ortalama hesapla
-        double avgCost = sumTotal/(totalPieces+sellPieces);
-        double sumMaliyet=(sumAmount)/(totalPieces+sellPieces);
+        double avgCost = sumTotal/(totalPieces-sellPieces);
+        double sumMaliyet=(sumAmount)/(totalPieces-sellPieces);
 
         binding.toplamDegerText.setText(String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
         binding.toplamText.setText(String.valueOf(String.format("%.2f",avgCost)+" TL"));
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
     @SuppressLint("NotifyDataSetChanged")
     public void getYuzde() {

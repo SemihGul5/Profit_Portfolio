@@ -40,7 +40,7 @@ public class AddStock extends AppCompatActivity {
     double yuzde;
     double ortMaliyet;
     double sellPieces,karZarar,satisAdet,kalanAdetDb;
-    String satisTutari;
+    String satisTutari,stockPriceSell;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,7 +175,7 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("buyDate", binding.dateBuyText.getText().toString());
                             contentValues.put("sellDate", binding.dateSellText.getText().toString());
                             contentValues.put("stockPriceBuy", binding.buyPriceText.getText().toString());
-                            contentValues.put("stockPriceSell", binding.sellPriceText.getText().toString());
+                            contentValues.put("stockPriceSell", stockPriceSell);
                             contentValues.put("amount", binding.amountText.getText().toString());
                             contentValues.put("profitAndLoss", karZarar);
                             contentValues.put("komisyon", komisyon);
@@ -192,8 +192,10 @@ public class AddStock extends AppCompatActivity {
                             if (result != -1) {
                                 Toast.makeText(AddStock.this, "Kayıt Başarılı", Toast.LENGTH_SHORT).show();
 
-
-                                binding.textView3.setVisibility(View.VISIBLE);
+                                Intent intent= new Intent(AddStock.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                /*binding.textView3.setVisibility(View.VISIBLE);
                                 binding.textView5.setVisibility(View.VISIBLE);
                                 binding.textView6.setVisibility(View.VISIBLE);
 
@@ -204,7 +206,7 @@ public class AddStock extends AppCompatActivity {
                                 binding.sellPriceText.setEnabled(false);
                                 binding.stockNameText.setEnabled(false);
                                 binding.dateSellText.setEnabled(false);
-                                binding.dateBuyText.setEnabled(false);
+                                binding.dateBuyText.setEnabled(false);*/
 
                             } else {
                                 Toast.makeText(AddStock.this, "Kayıt Başarısız", Toast.LENGTH_SHORT).show();
@@ -240,6 +242,7 @@ public class AddStock extends AppCompatActivity {
                 sellPieces=pieces;
                 kalanAdetDb=0;
                 satisTutari= String.valueOf(totalAmount);
+                stockPriceSell=binding.sellPriceText.getText().toString();
             }
             else if(!binding.sellPriceText.getText().toString().isEmpty()&&binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
@@ -254,6 +257,7 @@ public class AddStock extends AppCompatActivity {
                 kalanAdetDb=0;
                 sellPieces=pieces;
                 satisTutari= String.valueOf(totalAmount);
+                stockPriceSell=binding.sellPriceText.getText().toString();
             }
             else if(binding.sellPriceText.getText().toString().isEmpty()&&!binding.komisyonText.getText().toString().isEmpty()){
                 sellPrice = 0;
@@ -268,6 +272,7 @@ public class AddStock extends AppCompatActivity {
                  sellPieces=0;
                  kalanAdetDb=pieces;
                  satisTutari="";
+                stockPriceSell="";
             }
             else{
                 sellPrice = 0;
@@ -282,6 +287,7 @@ public class AddStock extends AppCompatActivity {
                 sellPieces=0;
                 kalanAdetDb=pieces;
                 satisTutari="";
+                stockPriceSell="";
             }
             karZarar=totalAmount-amount;
 

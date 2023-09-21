@@ -260,6 +260,14 @@
             android:textAlignment="viewEnd"
             android:textColor="@color/black"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/amountText2"
+            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:text="TL"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -357,6 +365,14 @@
             android:layout_weight="1"
             android:text=""
             android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/totalAmountText2"
+            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:text="TL"
+            android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="15sp" />
     </LinearLayout>

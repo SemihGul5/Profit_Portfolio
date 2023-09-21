@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,9 +97,10 @@ public class SellActivity extends AppCompatActivity {
                             long l= database.update(TABLENAME,contentValues,"id="+id,null);
 
                             if (l != -1) {
-                                Toast.makeText(SellActivity.this, "Güncellendi", Toast.LENGTH_SHORT).show();
-
-
+                                Toast.makeText(SellActivity.this, "Satış İşlemi Başarılı", Toast.LENGTH_SHORT).show();
+                                Intent intent= new Intent(SellActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(SellActivity.this, "Kayıt Başarısız", Toast.LENGTH_SHORT).show();
                             }
@@ -186,11 +188,12 @@ public class SellActivity extends AppCompatActivity {
             dateSell = bundle.getString("sellDate");
             oldbuyPrice = bundle.getDouble("stockPriceBuy");
             String stockPriceSell = bundle.getString("stockPriceSell");
-            if (!stockPriceSell.isEmpty()) {
-                oldsellPrice = Double.parseDouble(stockPriceSell);
+            if (stockPriceSell.isEmpty()||stockPriceSell.equals("null")) {
+                oldsellPrice=0;
+                stockPriceSell="0";
             }
             else{
-                oldsellPrice=0;
+                oldsellPrice = Double.parseDouble(stockPriceSell);
             }
             oldAmount = bundle.getDouble("amount");
             oldprofitAndLoss = bundle.getDouble("profitAndLoss");
@@ -202,11 +205,12 @@ public class SellActivity extends AppCompatActivity {
             oldKalanAdet = bundle.getDouble("kalanAdet");
 
             String satisTutar = bundle.getString("satisTutari");
-            if (!satisTutar.equals("")) {
-                oldSatisTutari = satisTutar;
+            if (satisTutar.isEmpty()||satisTutar.equals("null")) {
+                oldSatisTutari="null";
+                satisTutar="";
             }
             else{
-                oldSatisTutari="null";
+                oldSatisTutari = satisTutar;
             }
         } else {
 

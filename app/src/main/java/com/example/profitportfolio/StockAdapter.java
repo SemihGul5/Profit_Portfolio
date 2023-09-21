@@ -159,7 +159,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                             Toast.makeText(context,"Silindi",Toast.LENGTH_SHORT).show();
                                             stockArrayList.remove(position);
                                             notifyDataSetChanged();
-                                            ((MainActivity) context).getTotalPortfolio();
+                                            //((MainActivity) context).getTotalPortfolio();
                                             ((MainActivity) context).getProfitLoss();
                                             ((MainActivity) context).getYuzde();
 
@@ -183,7 +183,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);
                                 notifyDataSetChanged();
-                                ((MainActivity) context).getTotalPortfolio();
+                                //((MainActivity) context).getTotalPortfolio();
                                 ((MainActivity) context).getProfitLoss();
                                 ((MainActivity) context).getYuzde();
 
@@ -194,7 +194,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
                                 intent.putExtra("userData",bundle);
                                 context.startActivity(intent);
                                 notifyDataSetChanged();
-                                ((MainActivity) context).getTotalPortfolio();
+                                //((MainActivity) context).getTotalPortfolio();
                                 ((MainActivity) context).getProfitLoss();
                                 ((MainActivity) context).getYuzde();
 

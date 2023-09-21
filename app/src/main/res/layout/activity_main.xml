@@ -14,7 +14,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         android:backgroundTint="@color/white"
         android:elevation="5dp"
         app:cardCornerRadius="15dp"
@@ -32,46 +32,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="8dp"
             android:padding="5dp">
-
-            <TextView
-                android:id="@+id/textViewMaliyet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ortalama Hisse Maliyeti"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/toplamDegerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0,0 TL"
-                android:layout_row="1"
-                android:layout_marginLeft="20dp"
-                android:layout_column="1"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/textViewDeger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ortalama Hisse Değeri"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/toplamText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0,0 TL"
-                android:layout_row="0"
-                android:layout_marginLeft="20dp"
-                android:layout_column="1"
-                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/textViewKarZarar"
