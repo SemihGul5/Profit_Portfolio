@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddStock"
+    android:background="@color/white"
     >
 
     <com.google.android.material.textfield.TextInputLayout
@@ -18,7 +19,7 @@
         android:layout_marginEnd="32dp"
         android:hint="*Hisse Senedi Adı"
         app:counterEnabled="true"
-        app:counterMaxLength="10"
+        app:counterMaxLength="5"
         app:endIconMode="clear_text"
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +107,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:hint="Komisyon"
+        android:hint="*Komisyon"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

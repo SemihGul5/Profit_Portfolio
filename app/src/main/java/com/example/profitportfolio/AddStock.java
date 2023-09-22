@@ -162,9 +162,9 @@ public class AddStock extends AppCompatActivity {
                     ) {
                         Snackbar.make(v, "Gerekli alanları doldurunuz.", Snackbar.LENGTH_SHORT).show();
                     }
-                    else if(binding.stockNameText.getText().length()>10)
+                    else if(binding.stockNameText.getText().length()>5)
                     {
-                        Snackbar.make(v, "İsim alanı en fazla 10 karakter olmalıdır!", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, "İsim alanı en fazla 5 karakter olmalıdır!", Snackbar.LENGTH_SHORT).show();
                     }
                     else{
                         try {

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         fab();
         //getTotalPortfolio();
+        calculatePortfolioValue();
         getProfitLoss();
         getYuzde();
         adapter.notifyDataSetChanged();
@@ -235,4 +236,36 @@ public class MainActivity extends AppCompatActivity {
         getData(); // Verileri yeniden yükle
         adapter.notifyDataSetChanged(); // Adapter'a veri değişikliği bildir
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void calculatePortfolioValue() {
+        double maliyetFarki=0;
+
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT  stockPriceSell,stockPriceBuy FROM " + TABLENAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                double satisFiyati= cursor.getDouble(0);
+                double alisFiyati=cursor.getDouble(1);
+
+                maliyetFarki +=(satisFiyati-alisFiyati);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        binding.toplamText.setText(String.format("%.2f TL", maliyetFarki));
+        if(maliyetFarki>0){
+            binding.toplamText.setTextColor(getResources().getColor(R.color.green));
+        }
+        else if(maliyetFarki<0) {
+            binding.toplamText.setTextColor(getResources().getColor(R.color.red));
+        }
+        else{
+            binding.toplamText.setTextColor(getResources().getColor(R.color.black));
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
 }

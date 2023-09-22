@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BuyActivity">
+    tools:context=".BuyActivity"
+    android:background="@color/white"
+    >
 
     <TextView
         android:id="@+id/BuyStockNameText"
@@ -216,7 +218,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/oval_button"
         android:elevation="10dp"
-        android:text="Satın Al"
+        android:text="Al"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
