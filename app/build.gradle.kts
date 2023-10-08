@@ -7,11 +7,11 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.profitportfolio"
+        applicationId = "com.AbreboStudio.profitportfolio"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

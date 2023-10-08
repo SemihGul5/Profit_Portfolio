@@ -179,7 +179,7 @@ public class AddStock extends AppCompatActivity {
                             contentValues.put("amount", binding.amountText.getText().toString());
                             contentValues.put("profitAndLoss", karZarar);
                             contentValues.put("komisyon", komisyon);
-                            contentValues.put("total", binding.totalAmountText.getText().toString());
+                            contentValues.put("total", totalAmount);
                             contentValues.put("yuzde", yuzde);
                             contentValues.put("ortMaliyet",ortMaliyet);
                             contentValues.put("sellPieces",sellPieces);
@@ -249,7 +249,7 @@ public class AddStock extends AppCompatActivity {
                 sellPrice = Double.parseDouble(binding.sellPriceText.getText().toString());
                 komisyon = 0;
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
-                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 pieces = Double.parseDouble(binding.piecesText.getText().toString());
                  amount = (buyPrice * pieces);
                  profitLoss = (sellPrice * pieces) - amount-komisyon;
                  totalAmount = amount + profitLoss;
@@ -264,7 +264,7 @@ public class AddStock extends AppCompatActivity {
                 sellPrice = 0;
                 komisyon = Double.parseDouble(binding.komisyonText.getText().toString());
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
-                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 pieces = Double.parseDouble(binding.piecesText.getText().toString());
                  amount = (buyPrice * pieces);
                  profitLoss = -komisyon;
                  totalAmount = amount;
@@ -279,7 +279,7 @@ public class AddStock extends AppCompatActivity {
                 sellPrice = 0;
                 komisyon = 0;
                  buyPrice = Double.parseDouble(binding.buyPriceText.getText().toString());
-                 pieces = Integer.parseInt(binding.piecesText.getText().toString());
+                 pieces = Double.parseDouble(binding.piecesText.getText().toString());
                  amount = buyPrice * pieces;
                  profitLoss = 0;
                  totalAmount = amount;
@@ -308,7 +308,7 @@ public class AddStock extends AppCompatActivity {
 
             binding.amountText.setText(String.format("%.2f", amount));
             binding.profitLossText.setText(String.format("%.3f", profitLoss));
-            binding.totalAmountText.setText(String.format("%.2f", totalAmount));
+            binding.totalAmountText.setText(String.format("%.3f", totalAmount));
             binding.yuzdeText.setText(String.format("%.2f", yuzde));
             binding.text9.setText("%");
             binding.text10.setText("TL");

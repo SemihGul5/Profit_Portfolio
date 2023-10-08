@@ -248,8 +248,14 @@ public class MainActivity extends AppCompatActivity {
             do {
                 double satisFiyati= cursor.getDouble(0);
                 double alisFiyati=cursor.getDouble(1);
+                if(satisFiyati==0){
+                    continue;
+                }
+                else{
+                    maliyetFarki +=(satisFiyati-alisFiyati);
+                }
 
-                maliyetFarki +=(satisFiyati-alisFiyati);
+
             } while (cursor.moveToNext());
         }
 
