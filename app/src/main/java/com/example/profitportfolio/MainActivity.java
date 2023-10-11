@@ -204,6 +204,55 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void dbCursor(String query){
+        ArrayList<Stock> results = new ArrayList<>();
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        int idIx = cursor.getColumnIndex("id");
+        int nameIx = cursor.getColumnIndex("name");
+        int piecesIx = cursor.getColumnIndex("pieces");
+        int dateBuyIx = cursor.getColumnIndex("buyDate");
+        int dateSellIx = cursor.getColumnIndex("sellDate");
+        int stockPricesBuyIx = cursor.getColumnIndex("stockPriceBuy");
+        int stockPricesSellIx = cursor.getColumnIndex("stockPriceSell");
+        int amountIx = cursor.getColumnIndex("amount");
+        int profitLossIx = cursor.getColumnIndex("profitAndLoss");
+        int komisyonIx = cursor.getColumnIndex("komisyon");
+        int totalAmountIx = cursor.getColumnIndex("total");
+        int yuzdeIx = cursor.getColumnIndex("yuzde");
+        int ortIx = cursor.getColumnIndex("ortMaliyet");
+        int sellPIx = cursor.getColumnIndex("sellPieces");
+        int kalanAdetIx = cursor.getColumnIndex("kalanAdet");
+        int satisIx = cursor.getColumnIndex("satisTutari");
+        int mkix = cursor.getColumnIndex("maliyetKomisyon");
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(idIx);
+            String stockName = cursor.getString(nameIx);
+            double pieces = cursor.getDouble(piecesIx);
+            String buyDate = cursor.getString(dateBuyIx);
+            String sellDate = cursor.getString(dateSellIx);
+            double stockPriceBuy = cursor.getDouble(stockPricesBuyIx);
+            String stockPriceSell = cursor.getString(stockPricesSellIx);
+            double amount = cursor.getDouble(amountIx);
+            double profitLoss = cursor.getDouble(profitLossIx);
+            double komisyon = cursor.getDouble(komisyonIx);
+            double total = cursor.getDouble(totalAmountIx);
+            double yuzde = cursor.getDouble(yuzdeIx);
+            double ortMaliyet = cursor.getDouble(ortIx);
+            double sellPieces = cursor.getDouble(sellPIx);
+            double kalanAdet = cursor.getDouble(kalanAdetIx);
+            String satisTutari = cursor.getString(satisIx);
+            double maliyetKomisyon = cursor.getDouble(mkix);
+
+            Stock stock = new Stock(id, stockName, pieces, buyDate, sellDate, stockPriceBuy, stockPriceSell, amount, profitLoss, komisyon, total, yuzde, ortMaliyet, sellPieces, kalanAdet, satisTutari, maliyetKomisyon);
+            results.add(stock);
+        }
+        cursor.close();
+        adapter.setData(results);
+        adapter.notifyDataSetChanged();
+    }
 
     private void bottomDialogShow() {
         Dialog dialog=new Dialog(this);
@@ -216,26 +265,25 @@ public class MainActivity extends AppCompatActivity {
         TextView smallerText=dialog.findViewById(R.id.smallerText);
 
         azText.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Az Tıklandı",Toast.LENGTH_SHORT).show();
+                dbCursor("SELECT * FROM " + TABLENAME + " ORDER BY name ASC");
             }
         });
         zaText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Za Tıklandı",Toast.LENGTH_SHORT).show();
-
-
+                dbCursor("SELECT * FROM " + TABLENAME + " ORDER BY name DESC");
             }
         });
         biggerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Bigger Tıklandı",Toast.LENGTH_SHORT).show();
+                dbCursor("SELECT * FROM " + TABLENAME + " ORDER BY profitAndLoss DESC");
 
             }
         });
@@ -243,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Smaller Tıklandı",Toast.LENGTH_SHORT).show();
+                dbCursor("SELECT * FROM " + TABLENAME + " ORDER BY profitAndLoss  ASC");
 
             }
         });
@@ -269,56 +317,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
-
-    /* @SuppressLint("NotifyDataSetChanged")
-    public void getTotalPortfolio() {
-        double totalPortfolio = 0;
-        database = dbHelper.getReadableDatabase();
-        // Bütün hisselerin toplam adetini al
-        Cursor cursor = database.rawQuery("SELECT SUM(pieces) FROM " + DbHelper.TABLENAME, null);
-        int totalPieces = 0;
-
-        if (cursor.moveToFirst()) {
-            totalPieces = cursor.getInt(0);
-        }
-        cursor.close();
-        cursor = database.rawQuery("SELECT SUM(kalanAdet) FROM " + DbHelper.TABLENAME, null);
-        int sellPieces = 0;
-
-        if (cursor.moveToFirst()) {
-            sellPieces = cursor.getInt(0);
-        }
-        cursor.close();
-
-        // tüm fiyatları topla
-        cursor = database.rawQuery("SELECT SUM(total) FROM " + DbHelper.TABLENAME, null);
-        double sumTotal = 0;
-
-        if (cursor.moveToFirst()) {
-            sumTotal = cursor.getDouble(0);
-        }
-
-        cursor.close();
-        //maliyet= amount+komisyon
-        cursor = database.rawQuery("SELECT SUM(amount) FROM " + DbHelper.TABLENAME, null);
-        double sumAmount = 0;
-
-        if (cursor.moveToFirst()) {
-            sumAmount = cursor.getDouble(0);
-        }
-
-        cursor.close();
-
-
-        // ortalama hesapla
-        double avgCost = sumTotal/(totalPieces-sellPieces);
-        double sumMaliyet=(sumAmount)/(totalPieces-sellPieces);
-
-        binding.toplamDegerText.setText(String.valueOf(String.format("%.2f",sumMaliyet)+" TL"));
-        binding.toplamText.setText(String.valueOf(String.format("%.2f",avgCost)+" TL"));
-        adapter.notifyDataSetChanged();
-    }*/
 
     @SuppressLint("NotifyDataSetChanged")
     public void getYuzde() {

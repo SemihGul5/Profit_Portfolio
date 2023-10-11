@@ -54,6 +54,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
         stockArrayList.addAll(stocks); // Yeni veriyi ekle
         notifyDataSetChanged(); // Veri değişikliğini bildir
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void setDataOrderByAsc(ArrayList<Stock> stocks) {
+        stockArrayList.clear(); // Mevcut veriyi temizle
+        stockArrayList.addAll(stocks); // Yeni veriyi ekle
+        notifyDataSetChanged(); // Veri değişikliğini bildir
+    }
 
 
     @Override
