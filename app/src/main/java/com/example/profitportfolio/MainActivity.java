@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         binding.searchText.setVisibility(View.GONE);
         binding.textInputLayout6.setVisibility(View.GONE);
 
-        if (binding.searchText.getVisibility()!=View.GONE){
-            searching();
-        }
+
+        searching();
+
 
     }
 
@@ -76,12 +76,14 @@ public class MainActivity extends AppCompatActivity {
                 // Metin değişmeden önce yapılacak işlemler
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Metin her değiştiğinde yapılacak işlemler
                 String searchText = s.toString().toUpperCase();
                 // Veritabanında bu metni kullanarak arama yapın ve sonuçları görünüme yükleyin
                 performSearch(searchText);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Veritabanında name sütununda arama yapma metodu
+    @SuppressLint("NotifyDataSetChanged")
     private ArrayList<Stock> searchByName(String name) {
         ArrayList<Stock> results = new ArrayList<>();
         database = dbHelper.getReadableDatabase();
@@ -153,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
             results.add(stock);
         }
         cursor.close();
+        adapter.notifyDataSetChanged();
         return results;
     }
 
