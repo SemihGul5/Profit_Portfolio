@@ -48,6 +48,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockHolder>
         RecyclerListBinding binding = RecyclerListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new StockHolder(binding);
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(ArrayList<Stock> stocks) {
+        stockArrayList.clear(); // Mevcut veriyi temizle
+        stockArrayList.addAll(stocks); // Yeni veriyi ekle
+        notifyDataSetChanged(); // Veri değişikliğini bildir
+    }
 
 
     @Override

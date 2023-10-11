@@ -2,6 +2,8 @@ package com.example.profitportfolio;
 
 import static com.example.profitportfolio.DbHelper.TABLENAME;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.profitportfolio.databinding.ActivityMainBinding;
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         stockArrayList=new ArrayList<>();
 
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
         adapter=new StockAdapter(stockArrayList,MainActivity.this,database,R.layout.recycler_list);
@@ -50,9 +58,156 @@ public class MainActivity extends AppCompatActivity {
         getProfitLoss();
         getYuzde();
         adapter.notifyDataSetChanged();
+
+        binding.searchText.setVisibility(View.GONE);
+        binding.textInputLayout6.setVisibility(View.GONE);
+
+        if (binding.searchText.getVisibility()!=View.GONE){
+            searching();
+        }
+
     }
 
-   /* @SuppressLint("NotifyDataSetChanged")
+    private void searching() {
+        // TextWatcher eklemek için örnek kod
+        binding.searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Metin değişmeden önce yapılacak işlemler
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Metin her değiştiğinde yapılacak işlemler
+                String searchText = s.toString().toUpperCase();
+                // Veritabanında bu metni kullanarak arama yapın ve sonuçları görünüme yükleyin
+                performSearch(searchText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Metin değiştikten sonra yapılacak işlemler
+            }
+        });
+
+    }
+    // Arama işlevselliğini gerçekleştiren metot
+    private void performSearch(String searchText) {
+        if (searchText.isEmpty()) {
+            // Eğer arama metni boşsa, tüm verileri göster
+            getData();
+        } else {
+            stockArrayList.clear();
+            // Veritabanında name sütununda arama yap
+            ArrayList<Stock> searchResults = searchByName(searchText);
+            // Arama sonuçlarını RecyclerView'a yükleyin
+            adapter.setData(searchResults);
+        }
+    }
+
+
+    // Veritabanında name sütununda arama yapma metodu
+    private ArrayList<Stock> searchByName(String name) {
+        ArrayList<Stock> results = new ArrayList<>();
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLENAME + " WHERE name LIKE ?", new String[]{"%" + name + "%"});
+
+        int idIx = cursor.getColumnIndex("id");
+        int nameIx = cursor.getColumnIndex("name");
+        int piecesIx = cursor.getColumnIndex("pieces");
+        int dateBuyIx = cursor.getColumnIndex("buyDate");
+        int dateSellIx = cursor.getColumnIndex("sellDate");
+        int stockPricesBuyIx = cursor.getColumnIndex("stockPriceBuy");
+        int stockPricesSellIx = cursor.getColumnIndex("stockPriceSell");
+        int amountIx = cursor.getColumnIndex("amount");
+        int profitLossIx = cursor.getColumnIndex("profitAndLoss");
+        int komisyonIx = cursor.getColumnIndex("komisyon");
+        int totalAmountIx = cursor.getColumnIndex("total");
+        int yuzdeIx = cursor.getColumnIndex("yuzde");
+        int ortIx = cursor.getColumnIndex("ortMaliyet");
+        int sellPIx = cursor.getColumnIndex("sellPieces");
+        int kalanAdetIx = cursor.getColumnIndex("kalanAdet");
+        int satisIx = cursor.getColumnIndex("satisTutari");
+        int mkix = cursor.getColumnIndex("maliyetKomisyon");
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(idIx);
+            String stockName = cursor.getString(nameIx);
+            double pieces = cursor.getDouble(piecesIx);
+            String buyDate = cursor.getString(dateBuyIx);
+            String sellDate = cursor.getString(dateSellIx);
+            double stockPriceBuy = cursor.getDouble(stockPricesBuyIx);
+            String stockPriceSell = cursor.getString(stockPricesSellIx);
+            double amount = cursor.getDouble(amountIx);
+            double profitLoss = cursor.getDouble(profitLossIx);
+            double komisyon = cursor.getDouble(komisyonIx);
+            double total = cursor.getDouble(totalAmountIx);
+            double yuzde = cursor.getDouble(yuzdeIx);
+            double ortMaliyet = cursor.getDouble(ortIx);
+            double sellPieces = cursor.getDouble(sellPIx);
+            double kalanAdet = cursor.getDouble(kalanAdetIx);
+            String satisTutari = cursor.getString(satisIx);
+            double maliyetKomisyon = cursor.getDouble(mkix);
+
+            Stock stock = new Stock(id, stockName, pieces, buyDate, sellDate, stockPriceBuy, stockPriceSell, amount, profitLoss, komisyon, total, yuzde, ortMaliyet, sellPieces, kalanAdet, satisTutari, maliyetKomisyon);
+            results.add(stock);
+        }
+        cursor.close();
+        return results;
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater= getMenuInflater();
+        inflater.inflate(R.menu.main_flow_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.searchStock) {
+            if (binding.searchText.getVisibility() == View.VISIBLE) {
+                // Geri tuşuna basıldığında, searchable alanları gizle
+                binding.searchText.setVisibility(View.GONE);
+                binding.textInputLayout6.setVisibility(View.GONE);
+            } else {
+                // "Ara" öğesine tıklandığında, searchable alanları görünür yap
+                binding.searchText.setVisibility(View.VISIBLE);
+                binding.textInputLayout6.setVisibility(View.VISIBLE);
+
+                // ActionBar'ın geri butonunu özelleştir
+                ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true); // Geri butonunu göster
+                    actionBar.setDisplayShowHomeEnabled(true); // Geri butonunu göster
+                    actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24); // Geri butonunun ikonunu ayarla
+                }
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        // ActionBar'ın geri butonuna basıldığında yapılacak işlem
+        binding.searchText.setVisibility(View.GONE);
+        binding.textInputLayout6.setVisibility(View.GONE);
+
+        // ActionBar'daki geri butonunu gizle
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+        }
+
+        return true;
+    }
+
+
+    /* @SuppressLint("NotifyDataSetChanged")
     public void getTotalPortfolio() {
         double totalPortfolio = 0;
         database = dbHelper.getReadableDatabase();

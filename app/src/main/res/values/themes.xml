@@ -1,10 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ProfitPortfolio" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.ProfitPortfolio" parent="Theme.MaterialComponents.Light.Bridge">
 
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/appBars</item>
         <item name="titleTextColor">@color/white</item>
+        <item name="actionOverflowButtonStyle">@style/optColor</item>
 
     </style>
 
@@ -34,4 +35,9 @@
         <item name="titleTextColor">@color/white</item>
 
     </style>
+
+    <style name="optColor" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="tint">@color/white</item>
+    </style>
+
 </resources>
