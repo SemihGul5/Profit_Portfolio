@@ -9,16 +9,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.profitportfolio.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -171,7 +179,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.searchStock) {
+        if(item.getItemId() == R.id.sortStock){
+            bottomDialogShow();
+        }
+        else if (item.getItemId() == R.id.searchStock) {
             if (binding.searchText.getVisibility() == View.VISIBLE) {
                 // Geri tuşuna basıldığında, searchable alanları gizle
                 binding.searchText.setVisibility(View.GONE);
@@ -192,6 +203,55 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void bottomDialogShow() {
+        Dialog dialog=new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheetdialog);
+
+        TextView azText=dialog.findViewById(R.id.azText);
+        TextView zaText=dialog.findViewById(R.id.zaText);
+        TextView biggerText=dialog.findViewById(R.id.biggerText);
+        TextView smallerText=dialog.findViewById(R.id.smallerText);
+
+        azText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this,"Az Tıklandı",Toast.LENGTH_SHORT).show();
+            }
+        });
+        zaText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this,"Za Tıklandı",Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+        biggerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this,"Bigger Tıklandı",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        smallerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this,"Smaller Tıklandı",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
     }
 
     @Override

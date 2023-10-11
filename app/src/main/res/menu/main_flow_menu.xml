@@ -4,4 +4,7 @@
     <item android:id="@+id/searchStock"
         android:title="Ara"
        ></item>
+    <item android:id="@+id/sortStock"
+        android:title="Sırala"
+        ></item>
 </menu>

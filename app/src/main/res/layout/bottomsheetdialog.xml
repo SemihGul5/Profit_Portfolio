@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottomsheet_bg"
+
+    >
+    <TextView
+        android:id="@+id/azText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  A-Z Sırala"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/zaText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  Z-A Sırala"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <TextView
+        android:id="@+id/biggerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  En Yüksek Kar Sırala"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <TextView
+        android:id="@+id/smallerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  En Düşük Kar Sırala"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        />
+
+</LinearLayout>
